@@ -1,0 +1,4 @@
+# Correcciones aprobadas: entrada del inventario -> especie del catalogo
+# Ejemplo:
+#   FFRAXINUS UHDEI: {categoria: Forestales, label: "FRESNO, MADRE DE AGUA (FRAXINUS UHDEI)"}
+alias: {}

@@ -1,0 +1,18 @@
+# Reglas de limpieza del inventario de planta viva
+
+# Filas consecutivas identicas: deduplicar | sumar | mantener
+duplicados: deduplicar
+
+# Similitud minima (0-100) para aceptar una especie del catalogo.
+# Debajo de este valor se usa "Otra" + texto y se reporta.
+umbral_fuzzy: 85
+
+# El inventario no dice si la planta va en SAF o MIAF.
+# Valores: SAF | MIAF
+sistema_planta_establecida: SAF
+
+# La altura del inventario viene en metros; el formulario pide cm.
+altura_en_metros: true
+
+# Cultivos eje: maximo de cultivos por categoria (frutal / agroindustrial / especia)
+max_cultivos_eje: 3

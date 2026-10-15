@@ -1,0 +1,29 @@
+# Columna del PADRON -> campo del formulario.
+# Las columnas se comparan sin acentos ni mayusculas; puedes listar varios
+# nombres posibles por campo (el primero que exista se usa).
+columnas:
+  curp: [CURP]
+  nombre: [Nombre, NOMBRE, NOMBRE(S)]
+  apellido_p: [Apellido_p, APELLIDO_P, APELLIDO PATERNO]
+  apellido_m: [Apellido_m, APELLIDO_M, APELLIDO MATERNO]
+  cac_id: [CAC_ID, ID CAC, ID_CAC]
+  cac_nombre: [NOMBRE_CAC, NOMBRE CAC]
+  poligono: [POLIGONO, POLÍGONO]
+  latitud: [CENTROIDE_LATITUD, LATITUD]
+  longitud: [CENTROIDE_LONGITUD, LONGITUD]
+  id_predio: [ID_PREDIO, ID PREDIO]
+  tecnica: [TECNICA, TÉCNICA, TECNICO]
+  curp_tecnica: [CURP de la técnica, CURP DE LA TECNICA, CURP TECNICA, CURP_TECNICA, CURP TECNICO]
+  id_sembrador: [ID DEL SEMBRADOR, ID_SEMBRADOR]
+
+# Dato -> ruta del campo (relativa a la raiz del formulario)
+campos:
+  curp: group_eq6af71/curp
+  nombre: group_eq6af71/nombre
+  apellido_p: group_eq6af71/aPaterno
+  apellido_m: group_eq6af71/aMaterno
+  cac_id: group_eq6af71/ID_de_la_CAC
+  cac_nombre: group_eq6af71/Nombre_de_la_CAC
+  curp_tecnica: datos_curp/curp_ingresado
+  id_predio: up/num_up_txt
+  centroide: up/Registra_el_centroide_del_predio

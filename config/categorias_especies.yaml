@@ -1,0 +1,52 @@
+# Especie -> categoria del formulario (Forestales / Agroindustrial / Frutales / Especias).
+# Se compara contra el NOMBRE COMUN o el NOMBRE CIENTIFICO del inventario
+# (sin acentos ni mayusculas). Tambien funciona por palabra: "PINO" cubre "PINO OCOTE".
+# Si una especie no aparece aqui, se reporta en la validacion.
+categorias:
+  Frutales:
+    - NARANJA
+    - LIMON
+    - LIMA
+    - MANDARINA
+    - TORONJA
+    - MANGO
+    - AGUACATE
+    - PAPAYA
+    - PLATANO
+    - GUAYABA
+    - MANZANA
+    - DURAZNO
+    - NOPAL TUNERO
+    - CITRUS
+    - MANGIFERA INDICA
+    - PERSEA AMERICANA
+    - CARICA PAPAYA
+    - MUSA
+    - PSIDIUM GUAJAVA
+    - MALUS DOMESTICA
+    - PRUNUS PERSICA
+    - OPUNTIA FICUS-INDICA
+  Forestales:
+    - PINO
+    - PINO OCOTE
+    - OCOTE
+    - FRESNO
+    - ROSA MORADA
+    - MACUILIS
+    - AMAPA
+    - PALO DE ROSA
+    - GUAJE
+    - LEUCAENA
+    - GUAJILLO
+    - FRIJOL PALO
+    - PINUS
+    - FRAXINUS
+    - TABEBUIA
+    - CAJANUS CAJAN
+  Especias:
+    - OREGANO
+    - LIPPIA
+    - ORIGANUM
+  Agroindustrial:
+    - AGAVE
+    - MAGUEY

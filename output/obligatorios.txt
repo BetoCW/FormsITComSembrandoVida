@@ -1,0 +1,115 @@
+- [select_one] Territorio  </group_eq6af71/territorios>
+    visible si: siempre
+    opciones: GUERRERO, COMALCALCO, COLIMA, TAPACHULA, PALENQUE, PAPANTLA, CORDOBA, CHIHUAHUA-SONORA
+- [number] Predio ID  </up/num_up>
+    visible si: false()
+    repeat: /up
+- [geopoint] Registra el centroide del predio  </up/Registra_el_centroide_del_predio>
+    visible si: siempre
+    repeat: /up
+- [select_one] Sistema productivo  </up/sistema>
+    visible si: siempre
+    opciones: SAF, MIAF, SAF y MIAF
+    repeat: /up
+- [number] ¿Cuántas?  </up/Cuantas_colmenas>
+    visible si: ../_Tiene_colmenas_en_la_UP  = 's'
+    repeat: /up
+- [select_one] ¿Requiere poda del arbolado frutal?  </up/poda_001>
+    visible si: siempre
+    opciones: Si, No
+    repeat: /up
+- [select_one] Especie  </up/cultivo_frutales_001>
+    visible si: false()
+    opciones: (catalogo frutales)
+    repeat: /up
+- [select_multiple] Especies  </up/Esps_poda_frut>
+    visible si: ../poda_001  = 'si'
+    opciones: (catalogo frutales)
+    repeat: /up
+- [number] Número de individuos  </up/num_poda_002>
+    visible si: ../poda_001  = 'si'
+    repeat: /up
+- [select_one] Especie  </up/cultivo_agro_001>
+    visible si: false()
+    opciones: (catalogo agroindustriales)
+    repeat: /up
+- [select_multiple] Especies  </up/Especies>
+    visible si: ../_Requiere_poda_del_arbolado_ag  = 's'
+    opciones: (catalogo agroindustriales_fix)
+    repeat: /up
+- [number] Número de individuos  </up/num_poda_002_001>
+    visible si: ../_Requiere_poda_del_arbolado_ag  = 's'
+    repeat: /up
+- [select_multiple] Principal fuente de agua  </up/disp_agua>
+    visible si: siempre
+    opciones: Temporal de lluvia, Pozo, Río/Arroyo/Laguna temporal, Río/Arroyo/Laguna permanente, Manantial, Pipa
+    repeat: /up
+- [select_multiple] ¿Cuál?  </up/almacenar_agua>
+    visible si: ../_Existe_alg_n_m_todo_para_alma  = 's'
+    opciones: Cubetas, botes o tambos, Cisterna, Ollas de captación, Jagüeyes, Otro
+    repeat: /up
+- [select_multiple] El año pasado ¿cuáles fueron los meses con disponibilidad de agua  </up/El_a_o_pasado_cu_le_sponibilidad_de_agua>
+    visible si: ../_Existe_alg_n_m_todo_para_alma  = 's'
+    opciones: Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto
+    repeat: /up
+- [select_multiple] Presencia de obras de conservación en la UP  </up/Presencia_de_obras_de_conserva>
+    visible si: siempre
+    opciones: Terraza tabla, Terrazas individuales, Bordos, Muros con piedra acomodada, Barreras rompevientos, Cercos vivos, Nivelación, Otra, Ninguna
+    repeat: /up
+- [number] km de brechas  </up/km_de_brechas>
+    visible si: selected( ../Tipo_de_obras_de_prevenci_n_de , 'brechas_cortafuego')
+    repeat: /up
+- [number] km de chaponeo  </up/km_de_chaponeo>
+    visible si: selected( ../Tipo_de_obras_de_prevenci_n_de , 'chaponeo')
+    repeat: /up
+- [number] Número de individuos  </up/N_mero_de_individuos_002>
+    visible si: selected( ../Tipo_de_obras_de_prevenci_n_de , 'levantamiento_de_fuste')
+    repeat: /up
+- [select_one] El año pasado ¿cómo controló las malezas en su parcela?  </up/arv_manejo_up>
+    visible si: siempre
+    opciones: Control manual (deshierbe con machete, azadón u otras herramientas), Control mecánico (uso de maquinaria o equipos), Bioinsumos (extractos vegetales, microorganismos, control biológico y otros insumos de origen biológico), Control químico (uso de herbicidas), Combinado (uso de dos o más de las opciones anteriores), No realiza manejo de malezas
+    repeat: /up
+- [select_one] Unidad de medida  </group_vj6ie64/forestales_001/Unidad_de_medida_002>
+    visible si: siempre
+    opciones: kg/Ha, L/ Ha
+    repeat: /group_vj6ie64/forestales_001
+- [select_one] Nombre científico  </group_bn3nt58/group_bi0cl57/esp_anual1>
+    visible si: siempre
+    opciones: (catalogo anuales)
+- [text] Variedad (Si no tiene variedad, escribir: NINGUNA)  </group_bn3nt58/group_bi0cl57/Variedad_Si_no_tien_d_escribir_NINGUNA>
+    visible si: siempre
+- [number] Volumen de producción (t)  </group_bn3nt58/group_bi0cl57/Volumen_de_producci_n_t_003>
+    visible si: siempre
+- [number] Costo riego (ha/año)  </group_bn3nt58/group_bi0cl57/costo_frutales_riego_003>
+    visible si: siempre
+- [number] Costo fertilización (ha/año)  </group_bn3nt58/group_bi0cl57/costo_frutales_fertilizacion_003>
+    visible si: siempre
+- [number] Costo control de plagas y enfermedades (ha/año)  </group_bn3nt58/group_bi0cl57/costo_frutales_control_plagas_003>
+    visible si: siempre
+- [number] Costo arvenses (ha/año)  </group_bn3nt58/group_bi0cl57/costo_frutales_arvenses_003>
+    visible si: siempre
+- [number] Costo podas y mantenimiento (ha/año)  </group_bn3nt58/group_bi0cl57/costo_frutales_podas_003>
+    visible si: siempre
+- [number] Costo tractores y otra maquinaria (ha/año)  </group_bn3nt58/group_bi0cl57/Costo_tractores_y_ot_a_maquinaria_ha_a_o>
+    visible si: siempre
+- [number] Costo herramientas (ha/año)  </group_bn3nt58/group_bi0cl57/Costo_herramientas_ha_a_o>
+    visible si: siempre
+- [number] Costo pago a jornales (ha/año)  </group_bn3nt58/group_bi0cl57/Costo_pago_a_jornales_ha_a_o>
+    visible si: siempre
+- [number] % de destino de la producción de Autoconsumo  </group_bn3nt58/group_bi0cl57/_de_destino_de_la_p_cci_n_de_Autoconsumo_003>
+    visible si: siempre
+- [number] % de destino de la producción de venta local  </group_bn3nt58/group_bi0cl57/_de_destino_de_la_p_cci_n_de_venta_local_003>
+    visible si: siempre
+- [number] % de destino de la producción de venta regional  </group_bn3nt58/group_bi0cl57/_de_destino_de_la_p_n_de_venta_regional_003>
+    visible si: siempre
+- [number] % de destino de la producción de venta nacional  </group_bn3nt58/group_bi0cl57/_de_destino_de_la_p_n_de_venta_nacional_003>
+    visible si: siempre
+- [number] % de destino de la producción de venta exportación  </group_bn3nt58/group_bi0cl57/_de_destino_de_la_p_de_venta_exportaci_n_003>
+    visible si: siempre
+- [number] % de destino de la producción en transformación  </group_bn3nt58/group_bi0cl57/_de_destino_de_la_p_n_en_transformaci_n_003>
+    visible si: siempre
+- [select_one] Calidad de la entrevista  </Calidad_de_la_entrevista>
+    visible si: siempre
+    opciones: Completa, Incompleta, Se negó a dar información, Informante inadecuado
+- [time] Hora de término de la entrevista  </Hora_de_t_rmino_de_la_entrevista>
+    visible si: siempre

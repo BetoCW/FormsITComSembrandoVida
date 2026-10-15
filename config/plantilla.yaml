@@ -1,0 +1,133 @@
+# PLANTILLA FIJA - igual para todos los sembradores.
+#
+# Clave = ruta del campo (sin el prefijo /aofpSYF3s4WGcra4oLPYev/).
+# Valor = TEXTO visible de la opcion (no el value interno). Listas = varias opciones.
+#   null  -> PENDIENTE (no se llena y se reporta si es obligatorio)
+#   campo ausente -> no se toca
+# Todo es editable desde la app (pestana "Plantilla").
+
+campos:
+  # --- Informacion general ---------------------------------------------------
+  group_eq6af71/territorios: JALISCO-NAYARIT
+  group_eq6af71/ruta_otro_op: Si               # "¿La ruta está en la lista?"
+  group_eq6af71/ruta: RUTA ZONA 7              # ruta 300 del catalogo = "RUTA ZONA 7"
+  group_eq6af71/_Cu_ntos_predios_conforman_la_: 1
+  group_eq6af71/A_o_de_ingreso: 2020
+
+  # --- Unidad productiva (UP) -------------------------------------------------
+  up/N_mero_de_UP_levantada: 1
+  up/Uso_de_suelo_inicial: Cultivo de milpa
+  up/Pendiente_promedio: "8° a 20°"
+  up/sistema: SAF y MIAF
+  up/Total_de_Hect_reas_SAF: 1
+  up/Total_de_Hect_reas_MIAF: 1.5
+  up/_La_UP_tiene_problemas_del_suelo: [deficiencia de materia orgánica, poca fertilidad]
+  up/El_a_o_pasado_la_UP_tubo_pro: "No"        # altas densidades
+  up/_La_UP_tiene_alta_mortandad_de: "Sí"
+  up/Causas_mortandad_de_plantas: Plaga, Hielo
+  up/Tasa_de_mortandad: 60
+  up/_Tiene_colmenas_en_la_UP: "No"
+  up/poda_001: "No"                            # poda del arbolado frutal
+  up/_Requiere_poda_del_arbolado_ag: "No"
+  up/_Cuenta_con_bit_cora_de_producci_n: "No"
+  up/disp_agua: [Temporal de lluvia, Río/Arroyo/Laguna temporal, Manantial]
+  up/_Existe_alg_n_m_todo_para_alma: "No"
+  up/Presencia_de_obras_de_conserva:
+    - Terraza tabla, Terrazas individuales
+    - Bordos, Muros con piedra acomodada
+    - Barreras rompevientos, Cercos vivos
+  up/_Las_pr_cticas_que_h_la_calidad_del_suelo: null   # PENDIENTE: definir con el jefe
+  up/Porcentaje_de_suelo_por_M_O_u_hojarasca: "0 - 10%"  # la plantilla original dice 0%; la opcion mas baja es 0-10%
+  up/Raleo_de_planta: "No"
+
+  # --- Eventos climaticos ------------------------------------------------------
+  up/El_a_o_pasado_Cu_le_los_que_correspondan: [Nortes/Frentes fríos, Heladas, Granizadas]
+  up/El_a_o_pasado_de_los_eventos: [Disminución o pérdida de la cosecha, Cambios en la floración, Otra afectación]
+  up/Especifique_otra_afectaci_n: Secamiento de la planta
+  up/El_a_o_pasado_qu_ctadas_en_su_parcela: Muy afectada (más del 50 % de la producción)
+
+  # --- Manejo agroecologico ---------------------------------------------------
+  up/Labranza: Labranza cero
+  up/El_a_o_pasado_cu_n_manejo_de_su_parcela: Nunca
+  up/El_a_o_pasado_cu_n_r_el_uso_del_tractor: No gastó nada (no usó tractor, o tiene uno propio)
+  up/arv_manejo_up: Control manual (deshierbe con machete, azadón u otras herramientas)
+  up/Superficie_total_en_plic_la_composta_ha: 1
+  up/Elaboracion_propia: 0
+  up/Biofabrica: 100
+  up/Compra_local_: 0
+  up/Compra_regional_: 0
+  up/_Se_realiza_la_incorporaci_n_d: "Sí"      # rastrojo
+  up/_En_qu_sistema_se_r_iza_la_incorporaci_n: MIAF
+
+# --- Matrices: fila = texto del evento; columnas = letras (A = 1.a casilla) ------
+# null = PENDIENTE (las matrices no son obligatorias en el formulario)
+matrices:
+  group_ln6jc59: null      # Afectaciones en la parcela (ultimos 5 anos)
+  group_ws5me30: null      # Acciones o medidas en la parcela
+  group_fo7xr36:           # CAC, vivero y biofabrica
+    Huracanes: [B]
+    Lluvias intensas o inundaciones: [C, D, E]
+  group_lw0iz81: null      # Hogar o comunidad
+  group_pk1hx76:           # Incorporacion de materia organica (kg/ano)
+    Composta: 100
+
+# --- Especies tolerantes a eventos climaticos (repeat) ------------------------
+# Nombre cientifico: texto del catalogo PERENNES.
+especies_tolerantes:
+  - Nombre_com_n: Naranja Valencia
+    Nombre_cient_fico: NARANJA DULCE (CITRUS SINENSIS)
+    N_mero_de_individuos: 82
+    Tasa_promedio_de_supervivencia: 82
+    _A_qu_evento_clim_t_xtremo_es_resistente: [Heladas, Nortes/Frentes fríos, Lluvias intensas o inundaciones]
+  - Nombre_com_n: Mandarina
+    Nombre_cient_fico: MANDARINA (CITRUS X AURANTIUM)   # confirmar: tambien existe MANDARINA REAL (CITRUS RETICULATA)
+    N_mero_de_individuos: 95
+    Tasa_promedio_de_supervivencia: 95
+
+# --- Especies con valor biocultural (repeat) ----------------------------------
+# Nombre cientifico: texto del catalogo de anuales.
+especies_bioculturales:
+  - Nombre_com_n_001: Maíz chino
+    Nombre_cient_fico_001: Maíz (Zea mays)
+    N_mero_de_individuos_001: null   # PENDIENTE
+
+# --- Planta establecida en parcela: valores fijos por cada especie ------------
+planta_establecida:
+  Origen: null                       # PENDIENTE (texto libre)
+  Tasa_de_supervivencia: null        # PENDIENTE (%)
+
+# --- Cultivos eje: valores fijos (por etiqueta del campo) ---------------------
+# Lo calculado desde el inventario (nombre, especie, plantas, edad, altura,
+# diametro y sistema) no va aqui.
+cultivos_eje:
+  "Variedad (Si no tiene variedad, escribir: NINGUNA)": null
+  "Método de propagación utilizado": null
+  "Origen": null
+  "Marco de plantación": null
+  "Unidad de medida": null           # OBLIGATORIO en la categoria especia
+
+# --- Cultivo anual 1 (seccion de cultivos anuales; tiene 17 obligatorios) -----
+# Todo PENDIENTE: no venia en la plantilla original. Llenar una vez aqui.
+cultivo_anual_1:
+  group_bn3nt58/group_bi0cl57/Nombre_com_n_016: null
+  group_bn3nt58/group_bi0cl57/esp_anual1: null                      # catalogo anuales, p. ej. "Maíz (Zea mays)"
+  group_bn3nt58/group_bi0cl57/Variedad_Si_no_tien_d_escribir_NINGUNA: null
+  group_bn3nt58/group_bi0cl57/Volumen_de_producci_n_t_003: null
+  group_bn3nt58/group_bi0cl57/costo_frutales_riego_003: null
+  group_bn3nt58/group_bi0cl57/costo_frutales_fertilizacion_003: null
+  group_bn3nt58/group_bi0cl57/costo_frutales_control_plagas_003: null
+  group_bn3nt58/group_bi0cl57/costo_frutales_arvenses_003: null
+  group_bn3nt58/group_bi0cl57/costo_frutales_podas_003: null
+  group_bn3nt58/group_bi0cl57/Costo_tractores_y_ot_a_maquinaria_ha_a_o: null
+  group_bn3nt58/group_bi0cl57/Costo_herramientas_ha_a_o: null
+  group_bn3nt58/group_bi0cl57/Costo_pago_a_jornales_ha_a_o: null
+  group_bn3nt58/group_bi0cl57/_de_destino_de_la_p_cci_n_de_Autoconsumo_003: null
+  group_bn3nt58/group_bi0cl57/_de_destino_de_la_p_cci_n_de_venta_local_003: null
+  group_bn3nt58/group_bi0cl57/_de_destino_de_la_p_n_de_venta_regional_003: null
+  group_bn3nt58/group_bi0cl57/_de_destino_de_la_p_n_de_venta_nacional_003: null
+  group_bn3nt58/group_bi0cl57/_de_destino_de_la_p_de_venta_exportaci_n_003: null
+  group_bn3nt58/group_bi0cl57/_de_destino_de_la_p_n_en_transformaci_n_003: null
+
+# --- Datos sin campo en el formulario (solo aparecen en el reporte) -----------
+solo_reporte:
+  Bocashi (kg): 1000

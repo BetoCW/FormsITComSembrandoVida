@@ -1,0 +1,642 @@
+ note   /_Informaci_n_de_Unidades_Productivas :: Información de Unidades Productivas
+ note   /Este_cuestionario_de_tenga_ese_sembrador :: Este cuestionario debe llenarse por cada sembrador, una vez por cada sembrador. Dentro del formulario deberás 
+ note   /Completa_toda_la_inf_manera_independiente :: Completa toda la información de una UP antes de avanzar a la siguiente. Si el sembrador tiene más de una UP, u
+ date   /Fecha_de_la_entrevista :: Fecha de la entrevista
+ time   /Hora_de_inicio_de_la_entrevista :: Hora de inicio de la entrevista
+ note   /datos_curp/_I_INFORM_I_N_GENERAL_ :: I. INFORMACIÓN GENERAL
+ text   /datos_curp/curp_ingresado :: Ingrese el CURP del Técnico
+ note   /datos_curp/mostrar_nombre :: Nombre del Técnico:
+ note   /datos_curp/mostrar_estado :: Territorio:
+ note   /datos_curp/mensaje_no_registrado :: No se encontró su CURP en la base. Por favor, ingrese sus datos.  ?/datos_curp/curp_ingresado  != '' and string-length( /datos_curp/nombre_beneficiario ) = 0
+ text   /captura_manual/nombre_manual :: Ingrese su nombre(s)  ?/datos_curp/nombre_beneficiario  = ''
+ text   /captura_manual/apellido_paterno :: Ingrese su apellido paterno  ?/datos_curp/nombre_beneficiario  = ''
+ text   /captura_manual/apellido_materno :: Ingrese su apellido materno  ?/datos_curp/nombre_beneficiario  = ''
+*select /group_eq6af71/territorios :: Territorio  [GUERRERO | COMALCALCO | COLIMA | TAPACHULA | PALENQUE | PAPANTLA | CORDOBA | CHIHUAHUA-SONORA | BALANCAN | TEAPA | PUEBLA | OCOSINGO | OAXACA ISTMO | TANTOYUCA | XPUJIL | ACAYUCAN | DURANGO-ZACATECAS ]
+ select /group_eq6af71/ruta :: Ruta  [{rutas}]
+ select /group_eq6af71/ruta_otro_op :: ¿La ruta está en la lista?  [Si | No]
+ text   /group_eq6af71/ruta_otro :: Especifica la ruta  ?/group_eq6af71/ruta_otro_op  = 'no'
+ text   /group_eq6af71/ID_de_la_CAC :: ID de la CAC
+ text   /group_eq6af71/Nombre_de_la_CAC :: Nombre de la CAC
+ text   /group_eq6af71/curp :: CURP del sembrador
+ text   /group_eq6af71/nombre :: Nombre(s)
+ text   /group_eq6af71/aPaterno :: Apellido paterno
+ text   /group_eq6af71/aMaterno :: Apellido materno
+ number /group_eq6af71/_Cu_ntos_predios_conforman_la_ :: ¿Cuántos predios conforman la UP del sembrador?
+ number /group_eq6af71/A_o_de_ingreso :: Año de ingreso
+*number /up/num_up :: Predio ID  ?false()
+ text   /up/num_up_txt :: ID del predio
+ number /up/N_mero_de_UP_levantada :: Número de UP levantada
+ number /up/Superficie_UP_Ha :: Superficie UP (Ha)  ?/group_eq6af71/_Cu_ntos_predios_conforman_la_  > 1
+*geopoi /up/Registra_el_centroide_del_predio :: Registra el centroide del predio
+ select /up/Uso_de_suelo_inicial :: Uso de suelo inicial  [Ociosa | Potrero | Agostadero | Acahual bajo | Cultivo de milpa | Monocultivo]
+ text   /up/Especificar_monocultivo :: Especificar monocultivo:  ?../Uso_de_suelo_inicial  = 'monocultivo'
+ select /up/Pendiente_promedio :: Pendiente promedio  [0° a 8° | 8° a 20° | 20° a 40° | más de 40°]
+*select /up/sistema :: Sistema productivo  [SAF | MIAF | SAF y MIAF]
+ number /up/Total_de_Hect_reas_SAF :: Total de Hectáreas SAF  ?../sistema  = 'saf' or  ../sistema  = 'saf_miaf'
+ number /up/Total_de_Hect_reas_MIAF :: Total de Hectáreas MIAF  ?../sistema  = 'miaf' or  ../sistema  = 'saf_miaf'
+ select /up/_La_UP_tiene_problemas_del_suelo :: ¿La UP tiene problemas del suelo?  [erosión | compactación | contaminación | salinización | deficiencia de materia orgánica | poca fertilidad | alcalinidad | acidez]
+ select /up/El_a_o_pasado_la_UP_tubo_pro :: El año pasado, ¿la UP tuvo problemas de altas densidades?  [Sí | No]
+ select /up/Especie :: Especie  [{cientificos_Cykb1OA}]  ?../El_a_o_pasado_la_UP_tubo_pro  = 's'
+ number /up/N_mero_de_individuos_por_metro_cuadrado :: Número de individuos por metro cuadrado  ?../El_a_o_pasado_la_UP_tubo_pro  = 's'
+ select /up/_La_UP_tiene_alta_mortandad_de :: ¿La UP tiene alta mortandad de plantas?  [Sí | No]
+ text   /up/Causas_mortandad_de_plantas :: Causas de mortandad de plantas  ?../_La_UP_tiene_alta_mortandad_de  = 's'
+ number /up/Tasa_de_mortandad :: Tasa de mortandad  ?../_La_UP_tiene_alta_mortandad_de  = 's'
+ select /up/_Tiene_colmenas_en_la_UP :: ¿Tiene colmenas en la UP?  [Sí | No]
+*number /up/Cuantas_colmenas :: ¿Cuántas?  ?../_Tiene_colmenas_en_la_UP  = 's'
+ text   /up/_De_qu_especies :: ¿De qué especies?  ?../_Tiene_colmenas_en_la_UP  = 's'
+*select /up/poda_001 :: ¿Requiere poda del arbolado frutal?  [Si | No]
+*select /up/cultivo_frutales_001 :: Especie  [{frutales}]  ?false()
+*select /up/Esps_poda_frut :: Especies  [{frutales}]  ?../poda_001  = 'si'
+ text   /up/Especifique_otra :: Especifique otra  ?../Esps_poda_frut  = 'FRUTALES_118'
+*number /up/num_poda_002 :: Número de individuos  ?../poda_001  = 'si'
+ select /up/_Requiere_poda_del_arbolado_ag :: ¿Requiere poda del arbolado agroindustrial?  [Sí | No]
+*select /up/cultivo_agro_001 :: Especie  [{agroindustriales}]  ?false()
+*select /up/Especies :: Especies  [{agroindustriales_fix}]  ?../_Requiere_poda_del_arbolado_ag  = 's'
+ text   /up/Especifique_otro :: Especifique otro  ?../Especies  = 'AGROINDUSTRIALES_67'
+*number /up/num_poda_002_001 :: Número de individuos  ?../_Requiere_poda_del_arbolado_ag  = 's'
+ select /up/_Cuenta_con_bit_cora_de_producci_n :: ¿Cuenta con bitácora de producción?  [Sí | No]
+*select /up/disp_agua :: Principal fuente de agua  [Temporal de lluvia | Pozo | Río/Arroyo/Laguna temporal | Río/Arroyo/Laguna permanente | Manantial | Pipa]
+ select /up/_Existe_alg_n_m_todo_para_alma :: ¿Existe algún método para almacenar agua en la UP?  [Sí | No]
+*select /up/almacenar_agua :: ¿Cuál?  [Cubetas, botes o tambos | Cisterna | Ollas de captación | Jagüeyes | Otro]  ?../_Existe_alg_n_m_todo_para_alma  = 's'
+ text   /up/Especificar_otro :: Especificar otro  ?selected( ../almacenar_agua , 'otra')
+ number /up/Volumen_agua_almacenada :: El año pasado. ¿Cuál fue el volumen de agua almacenada en la UP (Litros)?  ?../_Existe_alg_n_m_todo_para_alma  = 's'
+*select /up/El_a_o_pasado_cu_le_sponibilidad_de_agua :: El año pasado ¿cuáles fueron los meses con disponibilidad de agua  [Enero | Febrero | Marzo | Abril | Mayo | Junio | Julio | Agosto | Septiembre | Octubre | Noviembre | Diciembre]  ?../_Existe_alg_n_m_todo_para_alma  = 's'
+*select /up/Presencia_de_obras_de_conserva :: Presencia de obras de conservación en la UP  [Terraza tabla, Terrazas individuales | Bordos, Muros con piedra acomodada | Barreras rompevientos, Cercos vivos | Nivelación | Otra | Ninguna]
+ select /up/_Las_pr_cticas_que_h_la_calidad_del_suelo :: ¿Las prácticas que ha implementado en la UP han contribuido a conservar o mejorar la calidad del suelo?  [Sí, han mejorado mucho la calidad del suelo | No han generado cambios notables | No he implementado ninguna práctica de conservación del suelo]
+ select /up/Porcentaje_de_suelo_por_M_O_u_hojarasca :: Porcentaje de suelo cubierto por M.O. u hojarasca  [0 - 10% | 11 - 20 % | 21 - 30 % | 31 - 40 % | 41 - 50 % | 51 - 60 % | 61 - 70% | 71 - 80 % | 81 - 90 % | 91 - 100 %]
+ select /up/Raleo_de_planta :: Raleo de planta  [Sí | No]
+ text   /up/Especies_001 :: Especies  ?../Raleo_de_planta  = 's'
+ number /up/N_mero_de_individuos_eliminados_por_ha :: Número de individuos eliminados por ha  ?../Raleo_de_planta  = 's'
+ text   /up/sp_tolerantes_e_climaticos/Nombre_com_n :: Nombre común
+ select /up/sp_tolerantes_e_climaticos/Nombre_cient_fico :: Nombre científico  [{PERENNES}]
+ text   /up/sp_tolerantes_e_climaticos/Otro_nombre_cient_fico :: Otro nombre científico  ?../Nombre_cient_fico  = 'perenne_663'
+ number /up/sp_tolerantes_e_climaticos/N_mero_de_individuos :: Número de individuos
+ number /up/sp_tolerantes_e_climaticos/Tasa_promedio_de_supervivencia :: Tasa promedio de supervivencia
+ select /up/sp_tolerantes_e_climaticos/_A_qu_evento_clim_t_xtremo_es_resistente :: ¿A qué evento climático extremo es resistente?  [Nortes/Frentes fríos | Sequías | Lluvias intensas o inundaciones | Deslaves o derrumbes | Huracanes | Heladas | Olas de calor o calor extremo]
+ note   /up/sp_tolerantes_e_climaticos/Agregar_otra_especie_tolerante :: Agregar otra especie tolerante
+ text   /up/sp_biocultural/Nombre_com_n_001 :: Nombre común
+ select /up/sp_biocultural/Nombre_cient_fico_001 :: Nombre científico  [{anuales}]
+ text   /up/sp_biocultural/Otro_nombre_cient_fico_001 :: Otro nombre científico  ?../Nombre_cient_fico_001  = 'ANUALES_156'
+ number /up/sp_biocultural/N_mero_de_individuos_001 :: Número de individuos
+ note   /up/sp_biocultural/Agregar_otra_especie_on_valor_biocultural :: Agregar otra especie con valor biocultural
+ select /up/El_a_o_pasado_Cu_le_los_que_correspondan :: El año pasado ¿Cuáles de los siguientes eventos climáticos extremos afectaron su parcela? Señale todos los que  [Nortes/Frentes fríos | Sequías prolongadas | Lluvias intensas o inundaciones | Vientos fuertes o huracanes | Incendios | Deslaves o derrumbes | Heladas | Olas de calor o calor extremo | Granizadas | N]
+ select /up/El_a_o_pasado_de_los_eventos :: El año pasado, ¿de los eventos que se presentaron, de qué manera han afectado su parcela?  [Algunas especies ya no se dan en la región, | Disminución o pérdida de la cosecha | Cambios en la floración | Degradación del suelo | Otra afectación | No se han visto afectaciones | No se ha presenta]
+ text   /up/Especifique_otra_afectaci_n :: Especifique otra afectación  ?selected( ../El_a_o_pasado_de_los_eventos , 'otra_afectaci_n')
+ select /up/_Cu_les :: ¿Cuáles especies ya no se dan en la región?  [{cientificos_Cykb1OA}]  ?selected( ../El_a_o_pasado_de_los_eventos , 'algunas_especies_ya_no_se_dan_en_la_regi')
+ text   /up/Otra_especie :: Otra especie  ?../_Cu_les  = 'nombre_450'
+ select /up/El_a_o_pasado_qu_ctadas_en_su_parcela :: El año pasado, ¿qué tan afectada fue su producción por las plagas o enfermedades detectadas en su parcela?  [No hubo pérdida | Levemente afectada (menos del 20 %) | Medianamente afectada (entre el 20 y 50 % de la producción) | Muy afectada (más del 50 % de la producción)]
+ note   /up/_De_qu_manera_los_s_pciones_que_apliquen :: ¿De qué manera los siguientes eventos climáticos han afectado su parcela en los últimos cinco años? Marque tod
+ note   /up/Si_no_se_encuentra_l_n_seg_n_corresponda :: Si no se encuentra la afectación o el evento en las opciones del recuadro. Especificar en los apartados de "Ot
+ note   /up/A_Algunas_especies_se_dan_en_la_regi_n :: A: Algunas especies ya no se dan en la región
+ note   /up/B_Disminuci_n_o_p_rdida_de_la_cosecha :: B: Disminución o pérdida de la cosecha
+ note   /up/C_Cambios_en_la_floraci_n :: C: Cambios en la floración
+ note   /up/D_Degradaci_n_del_suelo :: D: Degradación del suelo
+ note   /up/E_No_se_han_visto_afectaciones :: E: No se han visto afectaciones
+ note   /up/F_No_se_ha_presenta_n_los_ltimos_5_a_os :: F: No se ha presentado el evento climático en los últimos 5 años
+ note   /up/group_bw7gj87/group_ln6jc59_header/group_ln6jc59_header_note :: Eventos climáticos
+ note   /up/group_bw7gj87/group_ln6jc59_header/group_ln6jc59_header_columna :: Afectaciones en parcela
+M /up/group_bw7gj87/group_ln6jc59_fila/group_ln6jc59_fila_note row='Sequías' cols=
+M /up/group_bw7gj87/group_ln6jc59_fila/group_ln6jc59_fila_columna row='Sequías' cols=A | B | C | D | E | F
+M /up/group_bw7gj87/group_ln6jc59_fila_2/group_ln6jc59_fila_2_note row='Deslaves o derrumbes' cols=
+M /up/group_bw7gj87/group_ln6jc59_fila_2/group_ln6jc59_fila_2_columna row='Deslaves o derrumbes' cols=A | B | C | D | E | F
+M /up/group_bw7gj87/group_ln6jc59_fila_3/group_ln6jc59_fila_3_note row='Huracanes' cols=
+M /up/group_bw7gj87/group_ln6jc59_fila_3/group_ln6jc59_fila_3_columna row='Huracanes' cols=A | B | C | D | E | F
+M /up/group_bw7gj87/group_ln6jc59_fila_1/group_ln6jc59_fila_1_note row='Lluvias intensas o inundaciones' cols=
+M /up/group_bw7gj87/group_ln6jc59_fila_1/group_ln6jc59_fila_1_columna row='Lluvias intensas o inundaciones' cols=A | B | C | D | E | F
+M /up/group_bw7gj87/group_ln6jc59_fila_5/group_ln6jc59_fila_5_note row='Heladas' cols=
+M /up/group_bw7gj87/group_ln6jc59_fila_5/group_ln6jc59_fila_5_columna row='Heladas' cols=A | B | C | D | E | F
+M /up/group_bw7gj87/group_ln6jc59_fila_4/group_ln6jc59_fila_4_note row='Incendios forestales' cols=
+M /up/group_bw7gj87/group_ln6jc59_fila_4/group_ln6jc59_fila_4_columna row='Incendios forestales' cols=A | B | C | D | E | F
+M /up/group_bw7gj87/group_ln6jc59_fila_6/group_ln6jc59_fila_6_note row='Olas de calor o calor extremo' cols=
+M /up/group_bw7gj87/group_ln6jc59_fila_6/group_ln6jc59_fila_6_columna row='Olas de calor o calor extremo' cols=A | B | C | D | E | F
+ note   /up/group_bw7gj87/group_ln6jc59_evento_1/group_ln6jc59_evento_1_note :: Nortes/Frentes fríos
+ select /up/group_bw7gj87/group_ln6jc59_evento_1/group_ln6jc59_evento_1_columna ::   [A | B | C | D | E | F]
+ text   /up/Otra_afectaci_n :: Otra afectación:
+ text   /up/Otro_evento_extremo_genera_la_afectaci_n :: Otro evento extremo que genera la afectación:
+ note   /up/_Qu_acciones_o_medi_pciones_que_apliquen :: ¿Qué acciones o medidas ha realizado para evitar o disminuir los impactos de los siguientes eventos climáticos
+ note   /up/Si_no_se_encuntra_la_o_seg_n_corresponda :: Si no se encuntra la medida o el evento en las opciones del recuadro. Especificar en los apartados de "Otra me
+ note   /up/A_Riegos_de_auxilio :: A. Riegos de auxilio
+ note   /up/B_Barreras_rompevientos :: B. Barreras rompevientos
+ note   /up/C_Obras_de_almacena_ento_de_agua_pluvial :: C. Obras de almacenamiento de agua pluvial
+ note   /up/D_Construcci_n_de_o_s_de_contenci_n_etc :: D. Construcción de obras de conservación (canales de drenaje, terrazas, muros de contención, etc.)
+ note   /up/E_Brechas_corta_fue_material_combustible :: E. Brechas corta fuego y manejo de material combustible.
+ note   /up/F_Selecci_n_de_espe_a_eventos_clim_ticos :: F. Selección de especies tolerantes a eventos climáticos
+ note   /up/G_Acomodo_de_rastro_umedad_y_temperatura :: G. Acomodo de rastrojo o de material vegetal para controlar humedad y temperatura
+ note   /up/H_Ajuste_de_calenda_ndiciones_clim_ticas :: H. Ajuste de calendario de siembra y monitoreo de condiciones climáticas
+ note   /up/I_No_se_han_hecho_acciones :: I. No se han hecho acciones
+ note   /up/group_ce8no58/group_ws5me30_header/group_ws5me30_header_note :: Eventos climáticos
+ note   /up/group_ce8no58/group_ws5me30_header/group_ws5me30_header_columna :: Acciones
+M /up/group_ce8no58/group_ws5me30_fila_7/group_ws5me30_fila_7_note row='Nortes/Frentes fríos' cols=
+M /up/group_ce8no58/group_ws5me30_fila_7/group_ws5me30_fila_7_columna row='Nortes/Frentes fríos' cols=A. | B. | C. | D. | E. | F. | G. | H. | I.
+M /up/group_ce8no58/group_ws5me30_fila_5/group_ws5me30_fila_5_note row='Heladas' cols=
+M /up/group_ce8no58/group_ws5me30_fila_5/group_ws5me30_fila_5_columna row='Heladas' cols=A. | B. | C. | D. | E. | F. | G. | H. | I.
+M /up/group_ce8no58/group_ws5me30_fila/group_ws5me30_fila_note row='Huracanes' cols=
+M /up/group_ce8no58/group_ws5me30_fila/group_ws5me30_fila_columna row='Huracanes' cols=A. | B. | C. | D. | E. | F. | G. | H. | I.
+M /up/group_ce8no58/group_ws5me30_fila_2/group_ws5me30_fila_2_note row='Lluvias intensas o inundaciones' cols=
+M /up/group_ce8no58/group_ws5me30_fila_2/group_ws5me30_fila_2_columna row='Lluvias intensas o inundaciones' cols=A. | B. | C. | D. | E. | F. | G. | H. | I.
+M /up/group_ce8no58/group_ws5me30_fila_3/group_ws5me30_fila_3_note row='Deslaves o derrumbes' cols=
+M /up/group_ce8no58/group_ws5me30_fila_3/group_ws5me30_fila_3_columna row='Deslaves o derrumbes' cols=A. | B. | C. | D. | E. | F. | G. | H. | I.
+M /up/group_ce8no58/group_ws5me30_fila_4/group_ws5me30_fila_4_note row='Incendios forestales' cols=
+M /up/group_ce8no58/group_ws5me30_fila_4/group_ws5me30_fila_4_columna row='Incendios forestales' cols=A. | B. | C. | D. | E. | F. | G. | H. | I.
+M /up/group_ce8no58/group_ws5me30_fila_6/group_ws5me30_fila_6_note row='Olas de calor o calor extremo (momentáneo)' cols=
+M /up/group_ce8no58/group_ws5me30_fila_6/group_ws5me30_fila_6_columna row='Olas de calor o calor extremo (momentáneo)' cols=A. | B. | C. | D. | E. | F. | G. | H. | I.
+M /up/group_ce8no58/group_ws5me30_fila_1/group_ws5me30_fila_1_note row='Sequías' cols=
+M /up/group_ce8no58/group_ws5me30_fila_1/group_ws5me30_fila_1_columna row='Sequías' cols=A. | B. | C. | D. | E. | F. | G. | H. | I.
+ text   /up/group_ce8no58/Otra_medida :: Otra medida
+ text   /up/group_ce8no58/Otro_evento :: Otro evento
+ note   /up/_De_qu_manera_los_s_pciones_que_apliquen_001 :: ¿De qué manera los siguientes eventos climáticos han afectado los recursos o actividades en la CAC, vivero y b
+ note   /up/Si_no_encuentra_el_r_o_seg_n_corresponda :: Si no encuentra el recurso o evento en las opciones del recuadro, especificar en el apartado de "Otro recurso 
+ note   /up/A_Disponibilidad_y_para_consumo_humano :: A: Disponibilidad y acceso al agua para consumo humano
+ note   /up/B_Bienes_y_servicio_nsporte_p_blico_etc :: B: Bienes y servicios (vivienda, energía eléctrica, drenaje y agua potable, transporte público, etc.)
+ note   /up/C_Carreteras_camin_s_o_accesos_a_la_CAC :: C: Carreteras, caminos o accesos a la CAC
+ note   /up/D_Estructura_del_vivero :: D: Estructura del vivero
+ note   /up/E_Estructura_de_la_biof_brica :: E: Estructura de la biofábrica
+ note   /up/F_Permanencia_de_mi_zamiento_de_personas :: F: Permanencia de miembros de la CAC (migración o desplazamiento de personas)
+ note   /up/G_No_se_han_visto_afectaciones :: G: No se han visto afectaciones
+ note   /up/group_fo7xr36_header/group_fo7xr36_header_note :: Eventos climáticos
+ note   /up/group_fo7xr36_header/group_fo7xr36_header_columna :: Columna
+M /up/group_fo7xr36_fila_5/group_fo7xr36_fila_5_note row='Incendios forestales' cols=
+M /up/group_fo7xr36_fila_5/group_fo7xr36_fila_5_columna row='Incendios forestales' cols=A | B | C | D | E | F | G
+M /up/group_fo7xr36_fila_7/group_fo7xr36_fila_7_note row='Olas de calor o calor extremo' cols=
+M /up/group_fo7xr36_fila_7/group_fo7xr36_fila_7_columna row='Olas de calor o calor extremo' cols=A | B | C | D | E | F | G
+M /up/group_fo7xr36_fila_3/group_fo7xr36_fila_3_note row='Deslaves o derrumbes' cols=
+M /up/group_fo7xr36_fila_3/group_fo7xr36_fila_3_columna row='Deslaves o derrumbes' cols=A | B | C | D | E | F | G
+M /up/group_fo7xr36_fila_4/group_fo7xr36_fila_4_note row='Huracanes' cols=
+M /up/group_fo7xr36_fila_4/group_fo7xr36_fila_4_columna row='Huracanes' cols=A | B | C | D | E | F | G
+M /up/group_fo7xr36_fila_6/group_fo7xr36_fila_6_note row='Heladas' cols=
+M /up/group_fo7xr36_fila_6/group_fo7xr36_fila_6_columna row='Heladas' cols=A | B | C | D | E | F | G
+M /up/group_fo7xr36_fila_2/group_fo7xr36_fila_2_note row='Lluvias intensas o inundaciones' cols=
+M /up/group_fo7xr36_fila_2/group_fo7xr36_fila_2_columna row='Lluvias intensas o inundaciones' cols=A | B | C | D | E | F | G
+M /up/group_fo7xr36_fila_1/group_fo7xr36_fila_1_note row='Sequías' cols=
+M /up/group_fo7xr36_fila_1/group_fo7xr36_fila_1_columna row='Sequías' cols=A | B | C | D | E | F | G
+M /up/group_fo7xr36_fila/group_fo7xr36_fila_note row='Nortes/Frentes fríos' cols=
+M /up/group_fo7xr36_fila/group_fo7xr36_fila_columna row='Nortes/Frentes fríos' cols=A | B | C | D | E | F | G
+ note   /up/Otro_recurso_o_actividad_afectado :: Otro recurso o actividad afectado
+ note   /up/Otro_evento_001 :: Otro evento
+ note   /up/_De_qu_manera_los_s_pciones_que_apliquen_002 :: ¿De qué manera los siguientes eventos climáticos han afectado los recursos o actividades de su hogar o comunid
+ note   /up/Si_no_encuentra_el_r_o_seg_n_corresponda_001 :: Si no encuentra el recurso o evento en las opciones del recuadro, especificar en el apartado de "Otro recurso 
+ note   /up/A_Disponibilidad_y_para_consumo_humano_001 :: A. Disponibilidad y acceso al agua para consumo humano
+ note   /up/B_Bienes_y_servicio_os_centros_de_salud :: B. Bienes y servicios (vivienda, energía eléctrica, drenaje y agua potable, transporte público, educación, rec
+ note   /up/C_Carreteras_y_caminos :: C. Carreteras y caminos
+ note   /up/D_Actividades_econ_como_empleados_etc :: D. Actividades económicas (ganadería, agricultura, pesca, apicultura, turismo, negocios propios, trabajos como
+ note   /up/E_Salud_de_usted_o_de_su_familia :: E.Salud de usted o de su familia
+ note   /up/F_Organizaci_n_comunitaria :: F. Organización comunitaria
+ note   /up/G_Permanencia_de_fa_zamiento_de_personas :: G. Permanencia de familiares y habitantes en la comunidad (migración o desplazamiento de personas)
+ note   /up/H_No_se_han_visto_afectaciones :: H. No se han visto afectaciones
+ note   /up/group_lw0iz81_header/group_lw0iz81_header_note :: Evento climático
+ note   /up/group_lw0iz81_header/group_lw0iz81_header_columna :: Afectaciones a medios de vida
+M /up/group_lw0iz81_fila_3/group_lw0iz81_fila_3_note row='Deslaves o derrumbes' cols=
+M /up/group_lw0iz81_fila_3/group_lw0iz81_fila_3_columna row='Deslaves o derrumbes' cols=A. | B. | C. | D. | E. | F. | G. | H.
+M /up/group_lw0iz81_fila_4/group_lw0iz81_fila_4_note row='Huracanes' cols=
+M /up/group_lw0iz81_fila_4/group_lw0iz81_fila_4_columna row='Huracanes' cols=A. | B. | C. | D. | E. | F. | G. | H.
+M /up/group_lw0iz81_fila_2/group_lw0iz81_fila_2_note row='Lluvias intensas o inundaciones' cols=
+M /up/group_lw0iz81_fila_2/group_lw0iz81_fila_2_columna row='Lluvias intensas o inundaciones' cols=A. | B. | C. | D. | E. | F. | G. | H.
+M /up/group_lw0iz81_fila_1/group_lw0iz81_fila_1_note row='Sequías' cols=
+M /up/group_lw0iz81_fila_1/group_lw0iz81_fila_1_columna row='Sequías' cols=A. | B. | C. | D. | E. | F. | G. | H.
+M /up/group_lw0iz81_fila_6/group_lw0iz81_fila_6_note row='Olas de calor o calor extremo' cols=
+M /up/group_lw0iz81_fila_6/group_lw0iz81_fila_6_columna row='Olas de calor o calor extremo' cols=A. | B. | C. | D. | E. | F. | G. | H.
+M /up/group_lw0iz81_fila/group_lw0iz81_fila_note row='Nortes /Frentes Fríos' cols=
+M /up/group_lw0iz81_fila/group_lw0iz81_fila_columna row='Nortes /Frentes Fríos' cols=A. | B. | C. | D. | E. | F. | G. | H.
+M /up/group_lw0iz81_fila_5/group_lw0iz81_fila_5_note row='Incendios forestales' cols=
+M /up/group_lw0iz81_fila_5/group_lw0iz81_fila_5_columna row='Incendios forestales' cols=A. | B. | C. | D. | E. | F. | G. | H.
+ text   /up/Otro_recurso_o_actividad_afectado_001 :: Otro recurso o actividad afectado
+ text   /up/Otro_evento_002 :: Otro evento
+ select /up/_Cuenta_con_obras_de_prevenci_ :: ¿Cuenta con obras de prevención de incendios?  [Sí | No]
+ select /up/Tipo_de_obras_de_prevenci_n_de :: Tipo de obras de prevención de incendios  [brechas cortafuego | chaponeo | levantamiento de fuste | ninguna]  ?../_Cuenta_con_obras_de_prevenci_  = 's'
+*number /up/km_de_brechas :: km de brechas  ?selected( ../Tipo_de_obras_de_prevenci_n_de , 'brechas_cortafuego')
+*number /up/km_de_chaponeo :: km de chaponeo  ?selected( ../Tipo_de_obras_de_prevenci_n_de , 'chaponeo')
+*number /up/N_mero_de_individuos_002 :: Número de individuos  ?selected( ../Tipo_de_obras_de_prevenci_n_de , 'levantamiento_de_fuste')
+ note   /up/_Manejo_Agroecol_gi_la_Unidad_Productiva :: Manejo Agroecológico de la Unidad Productiva
+ select /up/Labranza :: Labranza  [Labranza total | Labranza reducida | Labranza cero]
+ select /up/El_a_o_pasado_cu_n_manejo_de_su_parcela :: El año pasado, ¿cuántas veces utilizó un tractor para el manejo de su parcela?  [Nunca | De 1 a 3 veces | De 4 a 6 veces | De 7 a 10 veces | Más de 10 veces | No sabe o no contestó]
+ select /up/El_a_o_pasado_cu_n_r_el_uso_del_tractor :: El año pasado, ¿cuánto gastó aproximadamente por el uso del tractor?  [No gastó nada (no usó tractor, o tiene uno propio) | Hasta $3,000 | Entre $3,001 y $6,000 | Entre $6001 y $ 10,000 | Más de $10,000 | No sabe o no contestó]
+*select /up/arv_manejo_up :: El año pasado ¿cómo controló las malezas en su parcela?  [Control manual (deshierbe con machete, azadón u otras herramientas) | Control mecánico (uso de maquinaria o equipos) | Bioinsumos (extractos vegetales, microorganismos, control biológico y otros insum]
+ note   /up/group_pk1hx76_header/group_pk1hx76_header_note :: Incorporación de materia orgánica
+ note   /up/group_pk1hx76_header/group_pk1hx76_header_columna :: kg/año
+M /up/group_pk1hx76_fila/group_pk1hx76_fila_note row='Composta' cols=
+M /up/group_pk1hx76_fila/group_pk1hx76_fila_columna row='Composta' cols=
+M /up/group_pk1hx76_fila_1/group_pk1hx76_fila_1_note row='Composta con excretas' cols=
+M /up/group_pk1hx76_fila_1/group_pk1hx76_fila_1_columna row='Composta con excretas' cols=
+M /up/group_pk1hx76_fila_2/group_pk1hx76_fila_2_note row='Composta más fertilización' cols=
+M /up/group_pk1hx76_fila_2/group_pk1hx76_fila_2_columna row='Composta más fertilización' cols=
+M /up/group_pk1hx76_fila_3/group_pk1hx76_fila_3_note row='Composta más fertilización y excretas líquidas' cols=
+M /up/group_pk1hx76_fila_3/group_pk1hx76_fila_3_columna row='Composta más fertilización y excretas líquidas' cols=
+ number /up/Superficie_total_en_plic_la_composta_ha :: Superficie total en la que se aplicó la composta ha
+ note   /up/_de_procedencia :: % de procedencia
+ number /up/Elaboracion_propia :: Elaboración propia en la UP %
+ number /up/Biofabrica :: Biofábrica %
+ number /up/Compra_local_ :: Compra local %
+ number /up/Compra_regional_ :: Compra regional %
+ select /up/_Se_realiza_la_incorporaci_n_d :: ¿Se realiza la incorporación de rastrojo al finalizar la cosecha?  [Sí | No]
+ select /up/_En_qu_sistema_se_r_iza_la_incorporaci_n :: ¿En qué sistema se realiza la incorporación?  [MIAF | SAF]  ?../_Se_realiza_la_incorporaci_n_d  = 's'
+ note   /up/_Planta_establecida_a_especies_perennes :: Planta establecida en parcela (especies perennes)
+ note   /up/group_dl45e64/_Se_deben_insertar_e_e_plantas_existentes :: Se deben insertar el número total de plantas existentes
+ note   /up/group_dl45e64/forestal_saf/Categor_a_Forestales :: Categoría: Forestales
+ text   /up/group_dl45e64/forestal_saf/Nombre_com_n_002 :: Nombre común
+ select /up/group_dl45e64/forestal_saf/Nombre_cient_fico_002 :: Nombre científico  [{forestales}]
+ text   /up/group_dl45e64/forestal_saf/Especifique_otro_nombre_cient_fico :: Especifique otro nombre científico  ?../Nombre_cient_fico_002  = 'FORESTALES_501'
+ number /up/group_dl45e64/forestal_saf/N_mero_de_individuos_por_especie :: Número de individuos por especie
+ number /up/group_dl45e64/forestal_saf/A_o_de_establecimiento_004 :: Año de establecimiento
+ text   /up/group_dl45e64/forestal_saf/Origen :: Origen
+ number /up/group_dl45e64/forestal_saf/Tasa_de_supervivencia_promedio_ :: Tasa de supervivencia promedio (%)
+ note   /up/group_dl45e64/forestal_saf/Agregar_otra_especie :: Agregar otra especie
+ note   /up/group_dl45e64/Agroindustrial_saf/Categor_a_Agroindustrial :: Categoría: Agroindustrial
+ text   /up/group_dl45e64/Agroindustrial_saf/Nombre_com_n_003 :: Nombre común
+ select /up/group_dl45e64/Agroindustrial_saf/Nombre_cient_fico_003 :: Nombre científico  [{agroindustriales}]
+ text   /up/group_dl45e64/Agroindustrial_saf/Especifique_otro_nombre_cient_fico_001 :: Especifique otro nombre científico  ?../Nombre_cient_fico_003  = 'AGROINDUSTRIALES_79'
+ number /up/group_dl45e64/Agroindustrial_saf/N_mero_de_individuos_por_especie_001 :: Número de individuos por especie
+ number /up/group_dl45e64/Agroindustrial_saf/A_o_de_establecimiento :: Año de establecimiento
+ text   /up/group_dl45e64/Agroindustrial_saf/Origen_001 :: Origen
+ number /up/group_dl45e64/Agroindustrial_saf/Tasa_de_supervivencia_promedio :: Tasa de supervivencia promedio
+ note   /up/group_dl45e64/Agroindustrial_saf/Agregar_otra_especie_001 :: Agregar otra especie
+ note   /up/group_dl45e64/Frutales_saf/Categor_a_Frutales :: Categoría: Frutales
+ text   /up/group_dl45e64/Frutales_saf/Nombre_com_n_004 :: Nombre común
+ select /up/group_dl45e64/Frutales_saf/Nombre_cient_fico_004 :: Nombre científico  [{frutales}]
+ text   /up/group_dl45e64/Frutales_saf/Especifique_otro_nombre_cient_fico_002 :: Especifique otro nombre científico  ?../Nombre_cient_fico_004  = 'FRUTALES_118'
+ number /up/group_dl45e64/Frutales_saf/N_mero_de_individuos_por_especie_002 :: Número de individuos por especie
+ number /up/group_dl45e64/Frutales_saf/A_o_de_establecimiento_001 :: Año de establecimiento
+ text   /up/group_dl45e64/Frutales_saf/Origen_002 :: Origen
+ number /up/group_dl45e64/Frutales_saf/Tasa_de_supervivencia_promedio_001 :: Tasa de supervivencia promedio
+ note   /up/group_dl45e64/Frutales_saf/Agregar_otra_especie_002 :: Agregar otra especie
+ note   /up/group_dl45e64/especias_saf/Categor_a_Especias :: Categoría: Especias
+ text   /up/group_dl45e64/especias_saf/Nombre_com_n_005 :: Nombre común
+ select /up/group_dl45e64/especias_saf/Nombre_cient_fico_005 :: Nombre científico  [{especias}]
+ text   /up/group_dl45e64/especias_saf/Especifique_otro_nombre_cient_fico_003 :: Especifique otro nombre científico  ?../Nombre_cient_fico_005  = 'ESPECIAS_14'
+ number /up/group_dl45e64/especias_saf/N_mero_de_individuos_por_especie_003 :: Número de individuos por especie
+ number /up/group_dl45e64/especias_saf/A_o_de_establecimiento_002 :: Año de establecimiento
+ text   /up/group_dl45e64/especias_saf/Origen_003 :: Origen
+ number /up/group_dl45e64/especias_saf/Tasa_de_supervivencia_promedio_002 :: Tasa de supervivencia promedio
+ note   /up/group_dl45e64/especias_saf/Agregar_otra_especie_003 :: Agregar otra especie
+ note   /up/group_dl45e64_001/_Se_deben_insertar_e_e_plantas_existentes_001 :: Se deben insertar el número total de plantas existentes
+ note   /up/group_dl45e64_001/Forestales_MIAF/Categor_a_Forestales_001 :: Categoría: Forestales
+ text   /up/group_dl45e64_001/Forestales_MIAF/Nombre_com_n_006 :: Nombre común
+ select /up/group_dl45e64_001/Forestales_MIAF/Nombre_cient_fico_006 :: Nombre científico  [{forestales}]
+ text   /up/group_dl45e64_001/Forestales_MIAF/Especifique_otro_nombre_cient_fico_004 :: Especifique otro nombre científico  ?../Nombre_cient_fico_006  = 'FORESTALES_501'
+ number /up/group_dl45e64_001/Forestales_MIAF/N_mero_de_individuos_por_especie_004 :: Número de individuos por especie
+ number /up/group_dl45e64_001/Forestales_MIAF/A_o_de_establecimiento_003 :: Año de establecimiento
+ text   /up/group_dl45e64_001/Forestales_MIAF/Origen_004 :: Origen
+ number /up/group_dl45e64_001/Forestales_MIAF/Tasa_de_supervivencia_promedio_003 :: Tasa de supervivencia promedio
+ note   /up/group_dl45e64_001/Forestales_MIAF/Agregar_otra_especie_004 :: Agregar otra especie
+ note   /up/group_dl45e64_001/Agroindustrial_miaf/Categor_a_Agroindustrial_001 :: Categoría: Agroindustrial
+ text   /up/group_dl45e64_001/Agroindustrial_miaf/Nombre_com_n_007 :: Nombre común
+ select /up/group_dl45e64_001/Agroindustrial_miaf/Nombre_cient_fico_007 :: Nombre científico  [{agroindustriales}]
+ text   /up/group_dl45e64_001/Agroindustrial_miaf/Especifique_otro_nombre_cient_fico_005 :: Especifique otro nombre científico  ?../Nombre_cient_fico_007  = 'AGROINDUSTRIALES_79'
+ number /up/group_dl45e64_001/Agroindustrial_miaf/N_mero_de_individuos_por_especie_005 :: Número de individuos por especie
+ number /up/group_dl45e64_001/Agroindustrial_miaf/A_o_de_establecimiento_005 :: Año de establecimiento
+ text   /up/group_dl45e64_001/Agroindustrial_miaf/Origen_005 :: Origen
+ number /up/group_dl45e64_001/Agroindustrial_miaf/Tasa_de_supervivencia_promedio_004 :: Tasa de supervivencia promedio
+ note   /up/group_dl45e64_001/Agroindustrial_miaf/Agregar_otra_especie_005 :: Agregar otra especie
+ note   /up/group_dl45e64_001/Frutales_miaf/Categor_a_Frutales_001 :: Categoría: Frutales
+ text   /up/group_dl45e64_001/Frutales_miaf/Nombre_com_n_008 :: Nombre común
+ select /up/group_dl45e64_001/Frutales_miaf/Nombre_cient_fico_008 :: Nombre científico  [{frutales}]
+ text   /up/group_dl45e64_001/Frutales_miaf/Especifique_otro_nombre_cient_fico_006 :: Especifique otro nombre científico  ?../Nombre_cient_fico_008  = 'Otra'
+ number /up/group_dl45e64_001/Frutales_miaf/N_mero_de_individuos_por_especie_006 :: Número de individuos por especie
+ number /up/group_dl45e64_001/Frutales_miaf/A_o_de_establecimiento_001_001 :: Año de establecimiento
+ text   /up/group_dl45e64_001/Frutales_miaf/Origen_006 :: Origen
+ number /up/group_dl45e64_001/Frutales_miaf/Tasa_de_supervivencia_promedio_005 :: Tasa de supervivencia promedio
+ note   /up/group_dl45e64_001/Frutales_miaf/Agregar_otra_especie_006 :: Agregar otra especie
+ note   /up/group_dl45e64_001/especias_MIAF/Categor_a_Especias_001 :: Categoría: Especias
+ text   /up/group_dl45e64_001/especias_MIAF/Nombre_com_n_009 :: Nombre común
+ select /up/group_dl45e64_001/especias_MIAF/Nombre_cient_fico_009 :: Nombre científico  [{especias}]
+ text   /up/group_dl45e64_001/especias_MIAF/Especifique_otro_nombre_cient_fico_007 :: Especifique otro nombre científico  ?../Nombre_cient_fico_009  = 'ESPECIAS_14'
+ number /up/group_dl45e64_001/especias_MIAF/N_mero_de_individuos_por_especie_007 :: Número de individuos por especie
+ number /up/group_dl45e64_001/especias_MIAF/A_o_de_establecimiento_002_001 :: Año de establecimiento
+ text   /up/group_dl45e64_001/especias_MIAF/Origen_007 :: Origen
+ number /up/group_dl45e64_001/especias_MIAF/Tasa_de_supervivencia_promedio_006 :: Tasa de supervivencia promedio
+ note   /up/group_dl45e64_001/especias_MIAF/Agregar_otra_especie_007 :: Agregar otra especie
+ note   /up/Cuando_termines_da_iario_cuenta_con_m_s :: Cuando termines, da clic en "+ Añadir" para registrar otra UP si el beneficiario cuenta con más.
+ note   /group_vj6ie64/En_esta_secci_n_solo_a_agregar_un_cultivo :: En esta sección solo debes registrar máximo 3 cultivos principales de cada categoría (frutales / agroindustria
+ note   /group_vj6ie64/frutal_eje/Categor_a_frutal :: Categoría: frutal
+ text   /group_vj6ie64/frutal_eje/Nombre_com_n_010 :: Nombre común
+ select /group_vj6ie64/frutal_eje/esp_f :: Nombre científico  [{frutales}]
+ text   /group_vj6ie64/frutal_eje/Otro_nombre_cient_fico_002 :: Otro nombre científico  ?../esp_f  = 'FRUTALES_118'
+ text   /group_vj6ie64/frutal_eje/var_f :: Variedad (Si no tiene variedad, escribir: NINGUNA)
+ select /group_vj6ie64/frutal_eje/sistema_001 :: Sistema productivo  [SAF | MIAF | SAF y MIAF]
+ select /group_vj6ie64/frutal_eje/M_todo_de_propagaci_n_utilizado :: Método de propagación utilizado  [Semillas | Esquejes | Hijuelo | Yema | Bulbo | Estaca | Rizoma | Otro]
+ select /group_vj6ie64/frutal_eje/Origen_008 :: Origen  [Vivero comercial con recurso propio | Producida por el sembrador | Propagación natural | Vivero comercial (recurso Bienestar) | Vivero Comunitario | Donación]
+ select /group_vj6ie64/frutal_eje/Marco_de_plantaci_n :: Marco de plantación  [Marco real | Cinco de oros | Tres bolillo | Hileras al contorno | Otro]
+ number /group_vj6ie64/frutal_eje/plantas_f :: Número de plantas establecidas
+ number /group_vj6ie64/frutal_eje/edad_f :: Edad promedio
+ number /group_vj6ie64/frutal_eje/Altura_promedio_cm :: Altura promedio (cm)
+ number /group_vj6ie64/frutal_eje/Di_metro_promedio_cm :: Diámetro promedio (cm)
+ select /group_vj6ie64/frutal_eje/Periodo_de_floraci_n :: Periodo de floración  [Enero | Febrero | Marzo | Abril | Mayo | Junio | Julio | Agosto | Septiembre | Octubre | Noviembre | Diciembre]
+ select /group_vj6ie64/frutal_eje/Periodo_de_fructificaci_n :: Periodo de fructificación  [Enero | Febrero | Marzo | Abril | Mayo | Junio | Julio | Agosto | Septiembre | Octubre | Noviembre | Diciembre]
+ number /group_vj6ie64/frutal_eje/N_mero_de_rboles_podados :: Número de árboles podados
+ select /group_vj6ie64/frutal_eje/Tipo_de_podas :: Tipo de podas  [Formación | Saneamiento | Ambas]
+ note   /group_vj6ie64/frutal_eje/Principales_plagas_y_enfermedades :: Principales plagas y enfermedades
+ select /group_vj6ie64/frutal_eje/Agente_Pat_geno_001 :: Agente Patógeno  [Insecto adulto | Insecto larva | Hongo | Bacteria | Fitoplasma | Mollicute | Nemátodo | Planta hemiparásito | Ninguno]
+ text   /group_vj6ie64/frutal_eje/Nombre_com_n_011 :: Nombre común
+ text   /group_vj6ie64/frutal_eje/Nombre_cient_fico_010 :: Nombre científico
+ select /group_vj6ie64/frutal_eje/Parte_afectada :: Parte afectada  [Hojas | Tallos o ramas | Raíces | Flores | Frutos | Semillas | Brotes | Planta completa]
+ note   /group_vj6ie64/frutal_eje/Proporci_n_de_afectaci_n :: Proporción de afectación:
+ number /group_vj6ie64/frutal_eje/Num_afectados :: Número de individuos afectados
+ number /group_vj6ie64/frutal_eje/Num_totales :: Número de individuos totales
+ select /group_vj6ie64/frutal_eje/M_todo_de_prevenci_n_control_003 :: Método de prevención/control  [Agroecológico | Químico | Físico | Biológico | Cultural | Ninguno]
+ text   /group_vj6ie64/frutal_eje/Insumo_utilizado :: Insumo utilizado  ?../M_todo_de_prevenci_n_control_003  != 'ninguno'
+ number /group_vj6ie64/frutal_eje/Cantidad_usada :: Cantidad usada  ?../M_todo_de_prevenci_n_control_003  != 'ninguno'
+ select /group_vj6ie64/frutal_eje/Unidad_de_medida :: Unidad de medida  [kg/Ha | L/ Ha]  ?../M_todo_de_prevenci_n_control_003  != 'ninguno'
+ select /group_vj6ie64/frutal_eje/_de_efectividad :: % de efectividad  [Baja (Menor al 25%) | Media (Entre 25 y 50%) | Alta (Mayor al 50%)]  ?../M_todo_de_prevenci_n_control_003  != 'ninguno'
+ note   /group_vj6ie64/frutal_eje/Producci_n :: Producción
+ number /group_vj6ie64/frutal_eje/prod_f :: Número de plantas en producción
+ number /group_vj6ie64/frutal_eje/Volumen_de_producci_n_t :: Volumen de producción (t)
+ number /group_vj6ie64/frutal_eje/Rendimiento_promedio_t_ha :: Rendimiento promedio (t/ha)
+ select /group_vj6ie64/frutal_eje/El_a_o_pasado_dura_cu_ntos_meses_cosech :: El año pasado, ¿durante cuántos meses cosechó?  [Ningún mes (no hubo cosechas) | De 1 a 3 meses | De 4 a 6 meses | De 7 a 9 meses | De 10 a 12 meses]
+ select /group_vj6ie64/frutal_eje/El_a_o_pasado_dura_entaci_n_de_su_hogar :: El año pasado, ¿durante cuántos meses la producción de su parcela cubrió al menos el 30% de la alimentación de  [Ninguno (no hubo cosechas) | De 1 a 3 meses | De 4 a 6 meses | De 7 a 9 meses | De 10 a 12 meses]
+ select /group_vj6ie64/frutal_eje/Periodo_de_cosecha :: Periodo de cosecha  [Primavera - verano | Otoño - invierno]
+ note   /group_vj6ie64/frutal_eje/Si_no_hay_costos_en_n_rubro_escribir_0 :: Si no hay costos en algún rubro, escribir 0
+ number /group_vj6ie64/frutal_eje/costo_frutales_reposicion :: Costo reposición de planta (ha/año)
+ number /group_vj6ie64/frutal_eje/costo_frutales_riego :: Costo riego (ha/año)
+ number /group_vj6ie64/frutal_eje/costo_frutales_fertilizacion :: Costo fertilización (ha/año)
+ number /group_vj6ie64/frutal_eje/costo_frutales_control_plagas :: Costo control de plagas (ha/año)
+ number /group_vj6ie64/frutal_eje/costo_frutales_arvenses :: Costo arvenses (ha/año)
+ number /group_vj6ie64/frutal_eje/costo_frutales_podas :: Costo podas (ha/año)
+ note   /group_vj6ie64/frutal_eje/Valor_de_venta_de_la_producci_n_t :: Valor $ de venta de la producción (t)
+ number /group_vj6ie64/frutal_eje/Pie_de_parcela :: Pie de parcela
+ number /group_vj6ie64/frutal_eje/Huerta :: Huerta
+ number /group_vj6ie64/frutal_eje/Centro_de_acopio :: Centro de acopio
+ number /group_vj6ie64/frutal_eje/Alimentaci_n_para_el_bienestar :: Alimentación para el bienestar
+ number /group_vj6ie64/frutal_eje/Plaza_o_mercado_local :: Plaza o mercado local
+ number /group_vj6ie64/frutal_eje/Otro :: Otro
+ text   /group_vj6ie64/frutal_eje/Especifique_otro_001 :: Especifique otro
+ note   /group_vj6ie64/frutal_eje/_de_destino_de_la_producci_n :: % de destino de la producción
+ number /group_vj6ie64/frutal_eje/_de_destino_de_la_p_cci_n_de_Autoconsumo :: % de destino de la producción de Autoconsumo
+ number /group_vj6ie64/frutal_eje/_de_destino_de_la_p_cci_n_de_venta_local :: % de destino de la producción de venta local
+ number /group_vj6ie64/frutal_eje/_de_destino_de_la_p_n_de_venta_regional :: % de destino de la producción de venta regional
+ number /group_vj6ie64/frutal_eje/_de_destino_de_la_p_n_de_venta_nacional :: % de destino de la producción de venta nacional
+ number /group_vj6ie64/frutal_eje/_de_destino_de_la_p_de_venta_exportaci_n :: % de destino de la producción de venta exportación
+ number /group_vj6ie64/frutal_eje/_de_destino_de_la_p_n_en_transformaci_n :: % de destino de la producción en transformación
+ select /group_vj6ie64/frutal_eje/Calidad_de_producci_n :: Calidad de producción  [muy buena | buena | regular | mala | muy mala | lo desconozco]
+ select /group_vj6ie64/frutal_eje/_Cuenta_con_certificado_org_nico :: ¿Cuenta con certificado orgánico?  [Sí | No]
+ note   /group_vj6ie64/frutal_eje/_A_adir_otra_especie :: "+ Añadir" otra especie
+ note   /group_vj6ie64/forestales/Categor_a_agroindustrial_002 :: Categoría: agroindustrial
+ text   /group_vj6ie64/forestales/Nombre_com_n_012 :: Nombre común
+ select /group_vj6ie64/forestales/esp_f_001 :: Nombre científico  [{agroindustriales}]
+ text   /group_vj6ie64/forestales/Otro_nombre_cient_fico_003 :: Otro nombre científico
+ text   /group_vj6ie64/forestales/var_f_001 :: Variedad (Si no tiene variedad, escribir: NINGUNA)
+ select /group_vj6ie64/forestales/sistema_002 :: Sistema productivo  [SAF | MIAF | SAF y MIAF]
+ select /group_vj6ie64/forestales/M_todo_de_propagaci_n_utilizado_001 :: Método de propagación utilizado  [Semillas | Esquejes | Hijuelo | Yema | Bulbo | Estaca | Rizoma | Otro]
+ select /group_vj6ie64/forestales/Origen_009 :: Origen  [Vivero comercial con recurso propio | Producida por el sembrador | Propagación natural | Vivero comercial (recurso Bienestar) | Vivero Comunitario | Donación]
+ select /group_vj6ie64/forestales/Marco_de_plantaci_n_001 :: Marco de plantación  [Marco real | Cinco de oros | Tres bolillo | Hileras al contorno | Otro]
+ number /group_vj6ie64/forestales/plantas_f_001 :: Número de plantas establecidas
+ number /group_vj6ie64/forestales/edad_f_001 :: Edad promedio
+ number /group_vj6ie64/forestales/Altura_promedio_cm_001 :: Altura promedio (cm)
+ number /group_vj6ie64/forestales/Di_metro_promedio_cm_001 :: Diámetro promedio (cm)
+ select /group_vj6ie64/forestales/Periodo_de_floraci_n_001 :: Periodo de floración  [Enero | Febrero | Marzo | Abril | Mayo | Junio | Julio | Agosto | Septiembre | Octubre | Noviembre | Diciembre]
+ select /group_vj6ie64/forestales/Periodo_de_fructificaci_n_001 :: Periodo de fructificación  [Enero | Febrero | Marzo | Abril | Mayo | Junio | Julio | Agosto | Septiembre | Octubre | Noviembre | Diciembre]
+ number /group_vj6ie64/forestales/N_mero_de_rboles_podados_001 :: Número de árboles podados
+ select /group_vj6ie64/forestales/Tipo_de_podas_001 :: Tipo de podas  [Formación | Saneamiento | Ambas]
+ note   /group_vj6ie64/forestales/Principales_plagas_y_enfermedades_001 :: Principales plagas y enfermedades
+ select /group_vj6ie64/forestales/Agente_Pat_geno_002 :: Agente Patógeno  [Insecto adulto | Insecto larva | Hongo | Bacteria | Fitoplasma | Mollicute | Nemátodo | Planta hemiparásito | Ninguno]
+ text   /group_vj6ie64/forestales/Nombre_cient_fico_011 :: Nombre científico
+ text   /group_vj6ie64/forestales/Nombre_com_n_013 :: Nombre común
+ select /group_vj6ie64/forestales/Parte_afectada_001 :: Parte afectada  [Hojas | Tallos o ramas | Raíces | Flores | Frutos | Semillas | Brotes | Planta completa]
+ note   /group_vj6ie64/forestales/Proporci_n_de_afectaci_n_001 :: Proporción de afectación:
+ number /group_vj6ie64/forestales/N_mero_de_individuos_afectados :: Número de individuos afectados
+ number /group_vj6ie64/forestales/N_mero_de_individuos_totales :: Número de individuos totales
+ select /group_vj6ie64/forestales/M_todo_de_prevenci_n_control_003_001 :: Método de prevención/control  [Agroecológico | Químico | Físico | Biológico | Cultural | Ninguno]
+ text   /group_vj6ie64/forestales/Insumo_utilizado_001 :: Insumo utilizado
+ select /group_vj6ie64/forestales/Frecuencia_de_uso :: Frecuencia de uso  [1 vez al año | 2 veces al año | 3 veces o más al año | nunca]
+ number /group_vj6ie64/forestales/Cantidad_usada_001 :: Cantidad usada
+ select /group_vj6ie64/forestales/Unidad_de_medida_001 :: Unidad de medida  [kg/Ha | L/ Ha]
+ select /group_vj6ie64/forestales/_de_efectividad_001 :: % de efectividad  [Baja (Menor al 25%) | Media (Entre 25 y 50%) | Alta (Mayor al 50%)]
+ number /group_vj6ie64/forestales/prod_f_001 :: Número de plantas en producción
+ number /group_vj6ie64/forestales/Volumen_de_producci_n_t_001 :: Volumen de producción (t)
+ number /group_vj6ie64/forestales/Rendimiento_promedio_t_ha_001 :: Rendimiento promedio (t/ha)
+ select /group_vj6ie64/forestales/El_a_o_pasado_dura_cu_ntos_meses_cosech_001 :: El año pasado, ¿durante cuántos meses cosechó?  [Ningún mes (no hubo cosechas) | De 1 a 3 meses | De 4 a 6 meses | De 7 a 9 meses | De 10 a 12 meses]
+ select /group_vj6ie64/forestales/El_a_o_pasado_dura_entaci_n_de_su_hogar_001 :: El año pasado, ¿durante cuántos meses la producción de su parcela cubrió al menos el 30% de la alimentación de  [Ninguno (no hubo cosechas) | De 1 a 3 meses | De 4 a 6 meses | De 7 a 9 meses | De 10 a 12 meses]
+ select /group_vj6ie64/forestales/Periodo_de_cosecha_001 :: Periodo de cosecha  [Primavera - verano | Otoño - invierno]
+ note   /group_vj6ie64/forestales/Costos_Si_no_hay_co_n_rubro_escribir_0 :: Costos. Si no hay costos en algún rubro, escribir 0
+ number /group_vj6ie64/forestales/costo_frutales_reposicion_001 :: Costo reposición de planta (ha/año)
+ number /group_vj6ie64/forestales/costo_frutales_riego_001 :: Costo riego (ha/año)
+ number /group_vj6ie64/forestales/costo_frutales_fertilizacion_001 :: Costo fertilización (ha/año)
+ number /group_vj6ie64/forestales/costo_frutales_control_plagas_001 :: Costo control de plagas (ha/año)
+ number /group_vj6ie64/forestales/costo_frutales_arvenses_001 :: Costo arvenses (ha/año)
+ number /group_vj6ie64/forestales/costo_frutales_podas_001 :: Costo podas (ha/año)
+ note   /group_vj6ie64/forestales/Valor_de_venta_de_la_producci_n_t_001 :: Valor $ de venta de la producción (t)
+ number /group_vj6ie64/forestales/Pie_de_parcela_001 :: Pie de parcela
+ number /group_vj6ie64/forestales/Huerta_001 :: Huerta
+ number /group_vj6ie64/forestales/Centro_de_acopio_001 :: Centro de acopio
+ number /group_vj6ie64/forestales/Alimentaci_n_para_el_bienestar_001 :: Alimentación para el bienestar
+ number /group_vj6ie64/forestales/Plaza_o_mercado_local_001 :: Plaza o mercado local
+ number /group_vj6ie64/forestales/Otro_001 :: Otro
+ text   /group_vj6ie64/forestales/Especifique_otro_002 :: Especifique otro
+ note   /group_vj6ie64/forestales/_de_destino_de_la_producci_n_001 :: % de destino de la producción
+ number /group_vj6ie64/forestales/_de_destino_de_la_p_cci_n_de_Autoconsumo_001 :: % de destino de la producción de Autoconsumo
+ number /group_vj6ie64/forestales/_de_destino_de_la_p_cci_n_de_venta_local_001 :: % de destino de la producción de venta local
+ number /group_vj6ie64/forestales/_de_destino_de_la_p_n_de_venta_regional_001 :: % de destino de la producción de venta regional
+ number /group_vj6ie64/forestales/_de_destino_de_la_p_n_de_venta_nacional_001 :: % de destino de la producción de venta nacional
+ number /group_vj6ie64/forestales/_de_destino_de_la_p_de_venta_exportaci_n_001 :: % de destino de la producción de venta exportación
+ number /group_vj6ie64/forestales/_de_destino_de_la_p_n_en_transformaci_n_001 :: % de destino de la producción en transformación
+ select /group_vj6ie64/forestales/Calidad_de_producci_n_001 :: Calidad de producción  [muy buena | buena | regular | mala | muy mala | lo desconozco]
+ select /group_vj6ie64/forestales/_Cuenta_con_certificado_org_nico_001 :: ¿Cuenta con certificado orgánico?  [Sí | No]
+ note   /group_vj6ie64/forestales/_A_adir_otra_especie_001 :: "+ Añadir" otra especie
+ note   /group_vj6ie64/forestales_001/Categor_a_especia :: Categoría: especia
+ text   /group_vj6ie64/forestales_001/Nombre_com_n_014 :: Nombre común
+ select /group_vj6ie64/forestales_001/esp_f_002 :: Nombre científico  [{especias}]
+ text   /group_vj6ie64/forestales_001/Otro_nombre_cient_fico_004 :: Otro nombre científico
+ text   /group_vj6ie64/forestales_001/var_f_002 :: Variedad (Si no tiene variedad, escribir: NINGUNA)
+ select /group_vj6ie64/forestales_001/sistema_003 :: Sistema productivo  [SAF | MIAF | SAF y MIAF]
+ select /group_vj6ie64/forestales_001/M_todo_de_propagaci_n_utilizado_002 :: Método de propagación utilizado  [Semillas | Esquejes | Hijuelo | Yema | Bulbo | Estaca | Rizoma | Otro]
+ select /group_vj6ie64/forestales_001/Origen_010 :: Origen  [Vivero comercial con recurso propio | Producida por el sembrador | Propagación natural | Vivero comercial (recurso Bienestar) | Vivero Comunitario | Donación]
+ select /group_vj6ie64/forestales_001/Marco_de_plantaci_n_002 :: Marco de plantación  [Marco real | Cinco de oros | Tres bolillo | Hileras al contorno | Otro]
+ number /group_vj6ie64/forestales_001/plantas_f_002 :: Número de plantas establecidas
+ number /group_vj6ie64/forestales_001/edad_f_002 :: Edad promedio
+ number /group_vj6ie64/forestales_001/Altura_promedio_cm_002 :: Altura promedio (cm)
+ number /group_vj6ie64/forestales_001/Di_metro_promedio_cm_002 :: Diámetro promedio (cm)
+ select /group_vj6ie64/forestales_001/Periodo_de_floraci_n_002 :: Periodo de floración  [Enero | Febrero | Marzo | Abril | Mayo | Junio | Julio | Agosto | Septiembre | Octubre | Noviembre | Diciembre]
+ select /group_vj6ie64/forestales_001/Periodo_de_fructificaci_n_002 :: Periodo de fructificación  [Enero | Febrero | Marzo | Abril | Mayo | Junio | Julio | Agosto | Septiembre | Octubre | Noviembre | Diciembre]
+ number /group_vj6ie64/forestales_001/N_mero_de_rboles_podados_002 :: Número de árboles podados
+ select /group_vj6ie64/forestales_001/Tipo_de_podas_002 :: Tipo de podas  [Formación | Saneamiento | Ambas]
+ note   /group_vj6ie64/forestales_001/Principales_plagas_y_enfermedades_002 :: Principales plagas y enfermedades
+ select /group_vj6ie64/forestales_001/Agente_Pat_geno :: Agente Patógeno  [Insecto adulto | Insecto larva | Hongo | Bacteria | Fitoplasma | Mollicute | Nemátodo | Planta hemiparásito | Ninguno]
+ text   /group_vj6ie64/forestales_001/Nombre_com_n_015 :: Nombre común
+ text   /group_vj6ie64/forestales_001/Nombre_cient_fico_012 :: Nombre científico
+ select /group_vj6ie64/forestales_001/Parte_afectada_002 :: Parte afectada  [Hojas | Tallos o ramas | Raíces | Flores | Frutos | Semillas | Brotes | Planta completa]
+ note   /group_vj6ie64/forestales_001/Proporci_n_de_afectaci_n_002 :: Proporción de afectación:
+ number /group_vj6ie64/forestales_001/N_mero_de_individuos_afectados_001 :: Número de individuos afectados
+ number /group_vj6ie64/forestales_001/N_mero_de_individuos_totales_001 :: Número de individuos totales
+ select /group_vj6ie64/forestales_001/M_todo_de_prevenci_n_control_003_002 :: Método de prevención/control  [Agroecológico | Químico | Físico | Biológico | Cultural | Ninguno]
+ text   /group_vj6ie64/forestales_001/Insumo_utilizado_002 :: Insumo utilizado
+ select /group_vj6ie64/forestales_001/Frecuencia_de_uso_001 :: Frecuencia de uso  [1 vez al año | 2 veces al año | 3 veces al año | nunca]
+ number /group_vj6ie64/forestales_001/Cantidad_usada_002 :: Cantidad usada
+*select /group_vj6ie64/forestales_001/Unidad_de_medida_002 :: Unidad de medida  [kg/Ha | L/ Ha]
+ select /group_vj6ie64/forestales_001/_de_efectividad_002 :: % de efectividad  [Baja (Menor al 25%) | Media (Entre 25 y 50%) | Alta (Mayor al 50%)]
+ note   /group_vj6ie64/forestales_001/Producci_n_001 :: Producción
+ number /group_vj6ie64/forestales_001/prod_f_002 :: Número de plantas en producción
+ number /group_vj6ie64/forestales_001/Volumen_de_producci_n_t_002 :: Volumen de producción (t)
+ number /group_vj6ie64/forestales_001/Rendimiento_promedio_t_ha_002 :: Rendimiento promedio (t/ha)
+ select /group_vj6ie64/forestales_001/El_a_o_pasado_dura_cu_ntos_meses_cosech_002 :: El año pasado, ¿durante cuántos meses cosechó?  [Ningún mes (no hubo cosechas) | De 1 a 3 meses | De 4 a 6 meses | De 7 a 9 meses | De 10 a 12 meses]
+ select /group_vj6ie64/forestales_001/El_a_o_pasado_dura_entaci_n_de_su_hogar_002 :: El año pasado, ¿durante cuántos meses la producción de su parcela cubrió al menos el 30% de la alimentación de  [Ninguno (no hubo cosechas) | De 1 a 3 meses | De 4 a 6 meses | De 7 a 9 meses | De 10 a 12 meses]
+ select /group_vj6ie64/forestales_001/Periodo_de_cosecha_002 :: Periodo de cosecha  [Primavera - verano | Otoño - invierno]
+ note   /group_vj6ie64/forestales_001/Costos_Si_no_hay_co_n_rubro_escribir_0_001 :: Costos. Si no hay costo en algún rubro, escribir 0
+ number /group_vj6ie64/forestales_001/costo_frutales_reposicion_002 :: Costo reposición de planta (ha/año)
+ number /group_vj6ie64/forestales_001/costo_frutales_riego_002 :: Costo riego (ha/año)
+ number /group_vj6ie64/forestales_001/costo_frutales_fertilizacion_002 :: Costo fertilización (ha/año)
+ number /group_vj6ie64/forestales_001/costo_frutales_control_plagas_002 :: Costo control de plagas (ha/año)
+ number /group_vj6ie64/forestales_001/costo_frutales_arvenses_002 :: Costo arvenses (ha/año)
+ number /group_vj6ie64/forestales_001/costo_frutales_podas_002 :: Costo podas (ha/año)
+ note   /group_vj6ie64/forestales_001/Valor_de_venta_de_la_producci_n_t_002 :: Valor $ de venta de la producción (t)
+ number /group_vj6ie64/forestales_001/Pie_de_parcela_002 :: Pie de parcela
+ number /group_vj6ie64/forestales_001/Huerta_002 :: Huerta
+ number /group_vj6ie64/forestales_001/Centro_de_acopio_002 :: Centro de acopio
+ number /group_vj6ie64/forestales_001/Alimentaci_n_para_el_bienestar_002 :: Alimentación para el bienestar
+ number /group_vj6ie64/forestales_001/Plaza_o_mercado_local_002 :: Plaza o mercado local
+ number /group_vj6ie64/forestales_001/Otro_002 :: Otro
+ text   /group_vj6ie64/forestales_001/Especifique_otro_003 :: Especifique otro
+ note   /group_vj6ie64/forestales_001/_de_destino_de_la_producci_n_002 :: % de destino de la producción
+ number /group_vj6ie64/forestales_001/_de_destino_de_la_p_cci_n_de_Autoconsumo_002 :: % de destino de la producción de Autoconsumo
+ number /group_vj6ie64/forestales_001/_de_destino_de_la_p_cci_n_de_venta_local_002 :: % de destino de la producción de venta local
+ number /group_vj6ie64/forestales_001/_de_destino_de_la_p_n_de_venta_regional_002 :: % de destino de la producción de venta regional
+ number /group_vj6ie64/forestales_001/_de_destino_de_la_p_n_de_venta_nacional_002 :: % de destino de la producción de venta nacional
+ number /group_vj6ie64/forestales_001/_de_destino_de_la_p_de_venta_exportaci_n_002 :: % de destino de la producción de venta exportación
+ number /group_vj6ie64/forestales_001/_de_destino_de_la_p_n_en_transformaci_n_002 :: % de destino de la producción en transformación
+ select /group_vj6ie64/forestales_001/Calidad_de_producci_n_002 :: Calidad de producción  [muy buena | buena | regular | mala | muy mala | lo desconozco]
+ select /group_vj6ie64/forestales_001/_Cuenta_con_certificado_org_nico_002 :: ¿Cuenta con certificado orgánico?  [Sí | No]
+ note   /group_vj6ie64/forestales_001/_A_adir_otra_especie_002 :: "+ Añadir" otra especie
+ note   /group_bn3nt58/_Cultivos_anuales_A_antes_por_sembrador :: Cultivos anuales. A continuación indique los tres cultivos anuales más abundantes (por sembrador).
+ text   /group_bn3nt58/group_bi0cl57/Nombre_com_n_016 :: Nombre común
+*select /group_bn3nt58/group_bi0cl57/esp_anual1 :: Nombre científico  [{anuales}]
+ text   /group_bn3nt58/group_bi0cl57/Otro_nombre_cient_fico_005 :: Otro nombre científico  ?/group_bn3nt58/group_bi0cl57/esp_anual1  = 'ANUALES_156'
+*text   /group_bn3nt58/group_bi0cl57/Variedad_Si_no_tien_d_escribir_NINGUNA :: Variedad (Si no tiene variedad, escribir: NINGUNA)
+ select /group_bn3nt58/group_bi0cl57/Origen_de_la_semilla :: Origen de la semilla  [Comprada | Propia | Intercambio]
+ select /group_bn3nt58/group_bi0cl57/Clasificaci_n :: Clasificación  [Cereales | Forrajes | Hortalizas | Leguminosas]
+ date   /group_bn3nt58/group_bi0cl57/Fecha_de_siembra :: Fecha de siembra
+ select /group_bn3nt58/group_bi0cl57/Ciclo :: Ciclo  [Primavera - verano | otoño - invierno]
+ text   /group_bn3nt58/group_bi0cl57/Adem_s_de_esta_espec_s_especies_asociadas :: Además de esta especie, enlistar las otras especies asociadas.
+*number /group_bn3nt58/group_bi0cl57/Volumen_de_producci_n_t_003 :: Volumen de producción (t)
+ number /group_bn3nt58/group_bi0cl57/Rendimiento_promedio_t_ha_003 :: Rendimiento promedio (t/ha)
+ date   /group_bn3nt58/group_bi0cl57/Fecha_de_cosecha :: Fecha de cosecha
+ select /group_bn3nt58/group_bi0cl57/Siniestros :: Siniestros  [plagas y enfermedades | incendios | evento meterológico | ninguno | otro]
+ number /group_bn3nt58/group_bi0cl57/Superficie_afectada_Ha :: Superficie afectada (Ha)  ?/group_bn3nt58/group_bi0cl57/Siniestros  != 'ninguno'
+ number /group_bn3nt58/group_bi0cl57/Cantidad_siniestrada_ton :: Cantidad siniestrada (ton)  ?/group_bn3nt58/group_bi0cl57/Siniestros  != 'ninguno'
+ note   /group_bn3nt58/group_bi0cl57/Principales_plagas_y_enfermedades_003 :: Principales plagas y enfermedades
+ select /group_bn3nt58/group_bi0cl57/Agente_Pat_geno_003 :: Agente Patógeno  [Insecto adulto | Insecto larva | Hongo | Bacteria | Fitoplasma | Mollicute | Nemátodo | Planta hemiparásito | Ninguno]
+ text   /group_bn3nt58/group_bi0cl57/Nombre_com_n_017 :: Nombre común
+ text   /group_bn3nt58/group_bi0cl57/Nombre_cient_fico_013 :: Nombre científico
+ select /group_bn3nt58/group_bi0cl57/Parte_afectada_003 :: Parte afectada  [Hojas | Tallos o ramas | Raíces | Flores | Frutos | Semillas | Brotes | Planta completa]
+ note   /group_bn3nt58/group_bi0cl57/Proporci_n_de_afectaci_n_003 :: Proporción de afectación
+ number /group_bn3nt58/group_bi0cl57/N_mero_de_individuos_afectados_002 :: Número de individuos afectados  ?false()
+ number /group_bn3nt58/group_bi0cl57/N_mero_total_de_individuos :: Número total de individuos  ?false()
+ number /group_bn3nt58/group_bi0cl57/Superficie_afectada_ha_001 :: Superficie afectada (ha)
+ number /group_bn3nt58/group_bi0cl57/Superficie_total_ha :: Superficie total (ha)
+ select /group_bn3nt58/group_bi0cl57/M_todo_de_prevenci_n_control :: Método de prevención/control  [Agroecológico | Químico | Físico | Biológico | Cultural | Ninguno]
+ text   /group_bn3nt58/group_bi0cl57/Insumo_utilizado_003 :: Insumo utilizado  ?/group_bn3nt58/group_bi0cl57/M_todo_de_prevenci_n_control  != 'ninguno'
+ select /group_bn3nt58/group_bi0cl57/Unidad_de_medida_003 :: Unidad de medida  [Kg/Ha | L/ Ha]  ?/group_bn3nt58/group_bi0cl57/M_todo_de_prevenci_n_control  != 'ninguno'
+ number /group_bn3nt58/group_bi0cl57/Cantidad_usada_003 :: Cantidad usada  ?/group_bn3nt58/group_bi0cl57/M_todo_de_prevenci_n_control  != 'ninguno'
+ select /group_bn3nt58/group_bi0cl57/Frecuencia_de_uso_002 :: Frecuencia de uso  [1 vez al año | 2 veces al año | 3 veces al año o más | nunca]  ?/group_bn3nt58/group_bi0cl57/M_todo_de_prevenci_n_control  != 'ninguno'
+ select /group_bn3nt58/group_bi0cl57/_de_efectividad_003 :: % de efectividad  [Baja (Menor al 25%) | Media (Entre 25 y 50%) | Alta (Mayor al 50%)]  ?/group_bn3nt58/group_bi0cl57/M_todo_de_prevenci_n_control  != 'ninguno'
+ note   /group_bn3nt58/group_bi0cl57/Costos_Si_no_hay_co_n_rubro_Escribir_0_002 :: Costos. Si no hay costos de algún rubro. Escribir 0
+ number /group_bn3nt58/group_bi0cl57/costo_frutales_reposicion_003 :: Costo reposición de planta (ha/año)
+*number /group_bn3nt58/group_bi0cl57/costo_frutales_riego_003 :: Costo riego (ha/año)
+*number /group_bn3nt58/group_bi0cl57/costo_frutales_fertilizacion_003 :: Costo fertilización (ha/año)
+*number /group_bn3nt58/group_bi0cl57/costo_frutales_control_plagas_003 :: Costo control de plagas y enfermedades (ha/año)
+*number /group_bn3nt58/group_bi0cl57/costo_frutales_arvenses_003 :: Costo arvenses (ha/año)
+*number /group_bn3nt58/group_bi0cl57/costo_frutales_podas_003 :: Costo podas y mantenimiento (ha/año)
+*number /group_bn3nt58/group_bi0cl57/Costo_tractores_y_ot_a_maquinaria_ha_a_o :: Costo tractores y otra maquinaria (ha/año)
+*number /group_bn3nt58/group_bi0cl57/Costo_herramientas_ha_a_o :: Costo herramientas (ha/año)
+*number /group_bn3nt58/group_bi0cl57/Costo_pago_a_jornales_ha_a_o :: Costo pago a jornales (ha/año)
+*number /group_bn3nt58/group_bi0cl57/_de_destino_de_la_p_cci_n_de_Autoconsumo_003 :: % de destino de la producción de Autoconsumo
+*number /group_bn3nt58/group_bi0cl57/_de_destino_de_la_p_cci_n_de_venta_local_003 :: % de destino de la producción de venta local
+*number /group_bn3nt58/group_bi0cl57/_de_destino_de_la_p_n_de_venta_regional_003 :: % de destino de la producción de venta regional
+*number /group_bn3nt58/group_bi0cl57/_de_destino_de_la_p_n_de_venta_nacional_003 :: % de destino de la producción de venta nacional
+*number /group_bn3nt58/group_bi0cl57/_de_destino_de_la_p_de_venta_exportaci_n_003 :: % de destino de la producción de venta exportación
+*number /group_bn3nt58/group_bi0cl57/_de_destino_de_la_p_n_en_transformaci_n_003 :: % de destino de la producción en transformación
+ select /group_bn3nt58/group_bi0cl57/_Cuenta_con_certificado_org_nico_003 :: ¿Cuenta con certificado orgánico?  [Sí | No]
+ text   /group_bn3nt58/group_bi0cl57_001/Nombre_com_n_018 :: Nombre común
+ select /group_bn3nt58/group_bi0cl57_001/esp_anual2 :: Nombre científico  [{anuales}]
+ text   /group_bn3nt58/group_bi0cl57_001/Otro_nombre_cient_fico_006 :: Otro nombre científico  ?/group_bn3nt58/group_bi0cl57_001/esp_anual2  = 'ANUALES_156'
+ text   /group_bn3nt58/group_bi0cl57_001/Variedad_Si_no_tien_d_escribir_NINGUNA_001 :: Variedad (Si no tiene variedad, escribir: NINGUNA)
+ select /group_bn3nt58/group_bi0cl57_001/Origen_de_la_semilla_001 :: Origen de la semilla  [Comprada | Propia | Intercambio]
+ select /group_bn3nt58/group_bi0cl57_001/Clasificaci_n_001 :: Clasificación  [Cereales | Forrajes | Hortalizas | Leguminosas]
+ date   /group_bn3nt58/group_bi0cl57_001/Fecha_de_siembra_001 :: Fecha de siembra
+ select /group_bn3nt58/group_bi0cl57_001/Ciclo_001 :: Ciclo  [Primavera - verano | otoño - invierno]
+ text   /group_bn3nt58/group_bi0cl57_001/Adem_s_de_esta_espec_s_especies_asociadas_001 :: Además de esta especie, enlistar las otras especies asociadas.
+ number /group_bn3nt58/group_bi0cl57_001/Volumen_de_producci_n_t_004 :: Volumen de producción (t)
+ number /group_bn3nt58/group_bi0cl57_001/Rendimiento_promedio_t_ha_004 :: Rendimiento promedio (t/ha)
+ date   /group_bn3nt58/group_bi0cl57_001/Fecha_de_cosecha_001 :: Fecha de cosecha
+ select /group_bn3nt58/group_bi0cl57_001/Siniestros_001 :: Siniestros  [plagas y enfermedades | incendios | evento meterológico | ninguno | otro]
+ text   /group_bn3nt58/group_bi0cl57_001/Especificar_otro_001 :: Especificar otro  ?/group_bn3nt58/group_bi0cl57_001/Siniestros_001  = 'otro'
+ number /group_bn3nt58/group_bi0cl57_001/Superficie_afectada_Ha_002 :: Superficie afectada (Ha)  ?/group_bn3nt58/group_bi0cl57_001/Siniestros_001  != 'ninguno'
+ number /group_bn3nt58/group_bi0cl57_001/Cantidad_siniestrada_ton_001 :: Cantidad siniestrada (ton)  ?/group_bn3nt58/group_bi0cl57_001/Siniestros_001  != 'ninguno'
+ note   /group_bn3nt58/group_bi0cl57_001/Principales_plagas_y_enfermedades_004 :: Principales plagas y enfermedades
+ select /group_bn3nt58/group_bi0cl57_001/Agente_Pat_geno_004 :: Agente Patógeno  [Insecto adulto | Insecto larva | Hongo | Bacteria | Fitoplasma | Mollicute | Nemátodo | Planta hemiparásito | Ninguno]
+ text   /group_bn3nt58/group_bi0cl57_001/Nombre_com_n_019 :: Nombre común
+ text   /group_bn3nt58/group_bi0cl57_001/Nombre_cient_fico_014 :: Nombre científico
+ select /group_bn3nt58/group_bi0cl57_001/Parte_afectada_004 :: Parte afectada  [Hojas | Tallos o ramas | Raíces | Flores | Frutos | Semillas | Brotes | Planta completa]
+ note   /group_bn3nt58/group_bi0cl57_001/Proporci_n_de_afectaci_n_004 :: Proporción de afectación
+ number /group_bn3nt58/group_bi0cl57_001/N_mero_de_individuos_afectados_003 :: Número de individuos afectados  ?false()
+ number /group_bn3nt58/group_bi0cl57_001/N_mero_total_de_individuos_001 :: Número total de individuos  ?false()
+ number /group_bn3nt58/group_bi0cl57_001/Superficie_afectada_ha_003 :: Superficie afectada (ha)
+ number /group_bn3nt58/group_bi0cl57_001/Superficie_total_ha_001 :: Superficie total (ha)
+ select /group_bn3nt58/group_bi0cl57_001/M_todo_de_prevenci_n_control_001 :: Método de prevención/control  [Agroecológico | Químico | Físico | Biológico | Cultural | Ninguno]
+ text   /group_bn3nt58/group_bi0cl57_001/Insumo_utilizado_004 :: Insumo utilizado
+ select /group_bn3nt58/group_bi0cl57_001/Unidad_de_medida_004 :: Unidad de medida  [Kg/Ha | L/ Ha]
+ select /group_bn3nt58/group_bi0cl57_001/Frecuencia_de_uso_003 :: Frecuencia de uso  [1 vez al año | 2 veces al año | 3 veces o más al año | Nunca]
+ number /group_bn3nt58/group_bi0cl57_001/Cantidad_usada_004 :: Cantidad usada
+ select /group_bn3nt58/group_bi0cl57_001/_de_efectividad_004 :: % de efectividad  [Baja (Menor al 25%) | Media (Entre 25 y 50%) | Alta (Mayor al 50%)]
+ note   /group_bn3nt58/group_bi0cl57_001/Costos_Si_no_hay_co_n_rubro_escribir_0_003 :: Costos. Si no hay costos en algún rubro, escribir 0
+ number /group_bn3nt58/group_bi0cl57_001/costo_frutales_reposicion_004 :: Costo reposición de planta (ha/año)
+ number /group_bn3nt58/group_bi0cl57_001/costo_frutales_riego_004 :: Costo riego (ha/año)
+ number /group_bn3nt58/group_bi0cl57_001/costo_frutales_fertilizacion_004 :: Costo fertilización (ha/año)
+ number /group_bn3nt58/group_bi0cl57_001/costo_frutales_control_plagas_004 :: Costo control de plagas y enfermedades (ha/año)
+ number /group_bn3nt58/group_bi0cl57_001/costo_frutales_arvenses_004 :: Costo arvenses (ha/año)
+ number /group_bn3nt58/group_bi0cl57_001/costo_frutales_podas_004 :: Costo podas y mantenimiento (ha/año)
+ number /group_bn3nt58/group_bi0cl57_001/Costo_herramientas_ha_a_o_001 :: Costo herramientas (ha/año)
+ number /group_bn3nt58/group_bi0cl57_001/Costo_pago_a_jornales_ha_a_o_001 :: Costo pago a jornales (ha/año)
+ number /group_bn3nt58/group_bi0cl57_001/Costo_tractores_y_ot_a_maquinaria_ha_a_o_001 :: Costo tractores y otra maquinaria (ha/año)
+ number /group_bn3nt58/group_bi0cl57_001/_de_destino_de_la_p_cci_n_de_Autoconsumo_004 :: % de destino de la producción de Autoconsumo
+ number /group_bn3nt58/group_bi0cl57_001/_de_destino_de_la_p_cci_n_de_venta_local_004 :: % de destino de la producción de venta local
+ number /group_bn3nt58/group_bi0cl57_001/_de_destino_de_la_p_n_de_venta_regional_004 :: % de destino de la producción de venta regional
+ number /group_bn3nt58/group_bi0cl57_001/_de_destino_de_la_p_n_de_venta_nacional_004 :: % de destino de la producción de venta nacional
+ number /group_bn3nt58/group_bi0cl57_001/_de_destino_de_la_p_de_venta_exportaci_n_004 :: % de destino de la producción de venta exportación
+ number /group_bn3nt58/group_bi0cl57_001/_de_destino_de_la_p_n_en_transformaci_n_004 :: % de destino de la producción en transformación
+ select /group_bn3nt58/group_bi0cl57_001/_Cuenta_con_certificado_org_nico_004 :: ¿Cuenta con certificado orgánico?  [Sí | No]
+ text   /group_bn3nt58/group_bi0cl57_002/Nombre_com_n_020 :: Nombre común
+ select /group_bn3nt58/group_bi0cl57_002/esp_anual3 :: Nombre científico  [{anuales}]
+ text   /group_bn3nt58/group_bi0cl57_002/Otro_nombre_cient_fico_007 :: Otro nombre científico  ?/group_bn3nt58/group_bi0cl57_002/esp_anual3  = 'ANUALES_156'
+ text   /group_bn3nt58/group_bi0cl57_002/Variedad_Si_no_tien_d_escribir_NINGUNA_002 :: Variedad (Si no tiene variedad, escribir: NINGUNA)
+ select /group_bn3nt58/group_bi0cl57_002/Origen_de_la_semilla_002 :: Origen de la semilla  [Comprada | Propia | Intercambio]
+ select /group_bn3nt58/group_bi0cl57_002/Clasificaci_n_002 :: Clasificación  [Cereales | Forrajes | Hortalizas | Leguminosas]
+ date   /group_bn3nt58/group_bi0cl57_002/Fecha_de_siembra_002 :: Fecha de siembra
+ select /group_bn3nt58/group_bi0cl57_002/Ciclo_002 :: Ciclo  [Primavera - verano | otoño - invierno]
+ text   /group_bn3nt58/group_bi0cl57_002/Adem_s_de_esta_espec_s_especies_asociadas_002 :: Además de esta especie, enlistar las otras especies asociadas.
+ number /group_bn3nt58/group_bi0cl57_002/Volumen_de_producci_n_t_005 :: Volumen de producción (t)
+ number /group_bn3nt58/group_bi0cl57_002/Rendimiento_promedio_t_ha_005 :: Rendimiento promedio (t/ha)
+ date   /group_bn3nt58/group_bi0cl57_002/Fecha_de_cosecha_002 :: Fecha de cosecha
+ select /group_bn3nt58/group_bi0cl57_002/Siniestros_002 :: Siniestros  [plagas y enfermedades | incendios | evento meterológico | ninguno | otro]
+ text   /group_bn3nt58/group_bi0cl57_002/Especificar_otro_002 :: Especificar otro  ?/group_bn3nt58/group_bi0cl57_002/Siniestros_002  = 'otro'
+ number /group_bn3nt58/group_bi0cl57_002/Superficie_afectada_Ha_004 :: Superficie afectada (Ha)  ?/group_bn3nt58/group_bi0cl57_002/Siniestros_002  != 'ninguno'
+ number /group_bn3nt58/group_bi0cl57_002/Cantidad_siniestrada_ton_002 :: Cantidad siniestrada (ton)  ?/group_bn3nt58/group_bi0cl57_002/Siniestros_002  != 'ninguno'
+ note   /group_bn3nt58/group_bi0cl57_002/Principales_plagas_y_enfermedades_005 :: Principales plagas y enfermedades
+ select /group_bn3nt58/group_bi0cl57_002/Agente_Pat_geno_005 :: Agente Patógeno  [Insecto adulto | Insecto larva | Hongo | Bacteria | Fitoplasma | Mollicute | Nemátodo | Planta hemiparásito | Ninguno]
+ text   /group_bn3nt58/group_bi0cl57_002/Nombre_com_n_021 :: Nombre común
+ text   /group_bn3nt58/group_bi0cl57_002/Nombre_cient_fico_015 :: Nombre científico
+ select /group_bn3nt58/group_bi0cl57_002/Parte_afectada_005 :: Parte afectada  [Hojas | Tallos o ramas | Raíces | Flores | Frutos | Semillas | Brotes | Planta completa]
+ note   /group_bn3nt58/group_bi0cl57_002/Proporci_n_de_afectaci_n_005 :: Proporción de afectación
+ number /group_bn3nt58/group_bi0cl57_002/N_mero_de_individuos_afectados_004 :: Número de individuos afectados  ?false()
+ number /group_bn3nt58/group_bi0cl57_002/N_mero_total_de_individuos_002 :: Número total de individuos  ?false()
+ select /group_bn3nt58/group_bi0cl57_002/M_todo_de_prevenci_n_control_002 :: Método de prevención/control  [Agroecológico | Químico | Físico | Biológico | Cultural | Ninguno]
+ text   /group_bn3nt58/group_bi0cl57_002/Insumo_utilizado_005 :: Insumo utilizado
+ select /group_bn3nt58/group_bi0cl57_002/Frecuencia_de_uso_004 :: Frecuencia de uso  [1 vez al año | 2 veces al año | 3 veces al año o más]
+ select /group_bn3nt58/group_bi0cl57_002/Unidad_de_medida_005 :: Unidad de medida  [Kg/Ha | L/ Ha]
+ number /group_bn3nt58/group_bi0cl57_002/Cantidad_usada_005 :: Cantidad usada
+ select /group_bn3nt58/group_bi0cl57_002/_de_efectividad_005 :: % de efectividad  [Baja (Menor al 25%) | Media (Entre 25 y 50%) | Alta (Mayor al 50%)]
+ note   /group_bn3nt58/group_bi0cl57_002/Costos_Si_no_hay_co_n_rubro_escribir_0_004 :: Costos. Si no hay costos en algún rubro, escribir 0
+ number /group_bn3nt58/group_bi0cl57_002/costo_frutales_reposicion_005 :: Costo reposición de planta (ha/año)
+ number /group_bn3nt58/group_bi0cl57_002/costo_frutales_riego_005 :: Costo riego (ha/año)
+ number /group_bn3nt58/group_bi0cl57_002/costo_frutales_fertilizacion_005 :: Costo fertilización (ha/año)
+ number /group_bn3nt58/group_bi0cl57_002/costo_frutales_control_plagas_005 :: Costo control de plagas y enfermedades (ha/año)
+ number /group_bn3nt58/group_bi0cl57_002/costo_frutales_arvenses_005 :: Costo arvenses (ha/año)
+ number /group_bn3nt58/group_bi0cl57_002/costo_frutales_podas_005 :: Costo podas y mantenimiento (ha/año)
+ number /group_bn3nt58/group_bi0cl57_002/Costo_tractores_y_ot_a_maquinaria_ha_a_o_002 :: Costo tractores y otra maquinaria (ha/año)
+ number /group_bn3nt58/group_bi0cl57_002/Costo_herramientas_ha_a_o_002 :: Costo herramientas (ha/año)
+ number /group_bn3nt58/group_bi0cl57_002/Costo_pago_a_jornales_ha_a_o_002 :: Costo pago a jornales (ha/año)
+ number /group_bn3nt58/group_bi0cl57_002/_de_destino_de_la_p_cci_n_de_Autoconsumo_005 :: % de destino de la producción de Autoconsumo
+ number /group_bn3nt58/group_bi0cl57_002/_de_destino_de_la_p_cci_n_de_venta_local_005 :: % de destino de la producción de venta local
+ number /group_bn3nt58/group_bi0cl57_002/_de_destino_de_la_p_n_de_venta_regional_005 :: % de destino de la producción de venta regional
+ number /group_bn3nt58/group_bi0cl57_002/_de_destino_de_la_p_n_de_venta_nacional_005 :: % de destino de la producción de venta nacional
+ number /group_bn3nt58/group_bi0cl57_002/_de_destino_de_la_p_de_venta_exportaci_n_005 :: % de destino de la producción de venta exportación
+ number /group_bn3nt58/group_bi0cl57_002/_de_destino_de_la_p_n_en_transformaci_n_005 :: % de destino de la producción en transformación
+ select /group_bn3nt58/group_bi0cl57_002/_Cuenta_con_certificado_org_nico_005 :: ¿Cuenta con certificado orgánico?  [Sí | No]
+*select /Calidad_de_la_entrevista :: Calidad de la entrevista  [Completa | Incompleta | Se negó a dar información | Informante inadecuado]
+*time   /Hora_de_t_rmino_de_la_entrevista :: Hora de término de la entrevista

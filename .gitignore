@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+build/
+dist/
+*.spec
+data/browser_profile/
+data/probe_profile/
+data/sesion.json
+data/form_cache/media/beneficiarios.csv
+data/form_cache/media/Personal_op.csv
+output/capturas/
+output/reporte_*.xlsx
+config/*.bak

@@ -1,0 +1,13 @@
+# DATOS DEL DIA - se capturan una vez al dia en la app (pestana "Hoy").
+fecha: ""                  # YYYY-MM-DD (vacio = fecha de hoy)
+hora_inicio: ""            # HH:MM
+hora_termino: ""           # HH:MM
+curp_tecnico: ""           # se usa si el padron no trae "CURP de la técnica"
+calidad_entrevista: null   # Completa | Incompleta | Se negó a dar información | Informante inadecuado
+
+# Horas automaticas: el primer sembrador empieza en hora_inicio y cada uno
+# siguiente se recorre duracion_min + descanso_min.
+auto_horas:
+  activo: false
+  duracion_min: 60
+  descanso_min: 0
