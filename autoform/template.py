@@ -55,6 +55,8 @@ class PlanBuilder:
 
     def reload(self):
         self.plantilla = load_yaml("plantilla.yaml")
+        if not (CONFIG / "dia.yaml").exists() and (CONFIG / "dia.ejemplo.yaml").exists():
+            (CONFIG / "dia.yaml").write_text((CONFIG / "dia.ejemplo.yaml").read_text(encoding="utf-8"), encoding="utf-8")
         self.dia = load_yaml("dia.yaml")
         self.reglas = load_yaml("inventario.yaml")
         self.mapeo = load_mapeo()["campos"]

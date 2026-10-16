@@ -38,7 +38,26 @@ Opcional: `build_exe.bat` genera `dist\AutoFormPSV\AutoFormPSV.exe` para abrirla
 2. La primera vez que abras el navegador de la app, si el sitio pide iniciar sesión, hazlo a mano;
    la sesión queda guardada en el perfil de la app (`data/browser_profile`). La app nunca guarda contraseñas.
 
-## Uso diario
+## Uso diario: modo EN VIVO (recomendado)
+
+![En vivo](docs/capturas/gui_envivo.png)
+
+1. Pestaña **▶ En vivo** → *Abrir formulario en vivo*. Se abre una ventana del navegador
+   con el formulario real y la app queda **conectada** (● verde).
+2. Elige el sembrador (o *+ Nuevo sembrador*) y escribe sus datos: CURP, nombre, apellidos,
+   CAC, ID del predio/coordenadas e inventario. **Cada dato se pinta al instante** en el
+   navegador; la plantilla fija y los datos del día se pintan solos al empezar.
+   A la derecha ves cada campo pintado (✓ ok, ✗ falló).
+3. Si corriges algo **a mano en el navegador**, la app lo detecta y lo respeta
+   (aparece en morado "cambiado en el navegador"); no lo vuelve a pisar.
+4. *Guardar borrador y pasar al siguiente*: guarda el borrador `CURP - Nombre` y deja el
+   formulario limpio con el siguiente sembrador.
+5. Para **enviar**: cierra la ventana del modo en vivo y usa *Abrir navegador para revisar /
+   ENVIAR a mano* (pestaña *Llenado por lote*). Ahí abres el borrador y presionas *Enviar* tú.
+
+*¿Qué obligatorios faltan?* lista en la actividad lo que el formulario aún exige.
+
+## Uso por lote (alternativa)
 
 ![Sembradores](docs/capturas/gui_semb.png)
 
@@ -89,7 +108,7 @@ cultivo anual). Cada guardado deja un respaldo `config/plantilla.*.bak`.
 | Archivo | Para qué |
 |---|---|
 | `plantilla.yaml` | Respuestas fijas. Valor = texto visible de la opción; `null` = PENDIENTE |
-| `dia.yaml` | Datos del día (lo edita la pestaña *Hoy*) |
+| `dia.yaml` | Datos del día (lo edita la app; no se sube a git, se crea desde `dia.ejemplo.yaml`) |
 | `mapeo_padron.yaml` | Columnas del padrón → campos del formulario |
 | `inventario.yaml` | Duplicados (`deduplicar`/`sumar`/`mantener`), umbral fuzzy, SAF/MIAF, máx. cultivos eje |
 | `categorias_especies.yaml` | Especie → Forestales / Agroindustrial / Frutales / Especias |
@@ -116,6 +135,7 @@ python -m autoform llenar  --padron P.xlsx --inventario I.xlsx --pausa [--curp C
 python tests/make_sample_excels.py   # Excel ficticios con duplicados, ".20", FFRAXINUS, etc.
 python tests/test_offline.py         # sin navegador
 python tests/live_widgets_test.py    # abre el formulario (perfil de prueba), NO guarda
+python tests/live_mode_test.py       # modo en vivo: pinta, detecta cambios a mano y guarda borrador (perfil de prueba)
 python tests/live_e2e_test.py        # llena un sembrador ficticio y guarda borrador LOCAL en el perfil de prueba
 ```
 

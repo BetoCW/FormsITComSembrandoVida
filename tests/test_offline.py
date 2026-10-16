@@ -50,6 +50,8 @@ m = cat.match("PINO OCOTE", "PINUS OOCARPA")
 check(m.metodo == "otra" and m.otra_texto == "PINUS OOCARPA", "especie sin match -> Otra + texto")
 
 b = PlanBuilder()
+b.dia = {"fecha": "2026-10-15", "hora_inicio": "", "hora_termino": "", "curp_tecnico": "",
+         "calidad_entrevista": None}   # independiente del dia.yaml local
 planes, avisos = validar(lote, b)
 p = planes[0]
 labels = {a.label: a for a in p.actions}

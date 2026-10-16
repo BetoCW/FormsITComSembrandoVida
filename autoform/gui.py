@@ -36,6 +36,7 @@ from .paths import OUTPUT, PROFILE, CONFIG
 from .report import write_report
 from .schema_index import Schema
 from .template import PlanBuilder, load_yaml, save_yaml
+from .gui_live import LiveTabMixin
 
 APP_TITLE = "AutoForm PSV"
 CALIDADES = ["(pendiente)", "Completa", "Incompleta", "Se negó a dar información", "Informante inadecuado"]
@@ -197,7 +198,7 @@ class OptionsDelegate(QStyledItemDelegate):
 
 
 # =============================================================== ventana
-class MainWindow(QMainWindow):
+class MainWindow(LiveTabMixin, QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle(APP_TITLE)
@@ -220,10 +221,11 @@ class MainWindow(QMainWindow):
 
         self.tabs = QTabWidget()
         self.setCentralWidget(self.tabs)
-        self.tabs.addTab(self._tab_hoy(), "1. Hoy")
-        self.tabs.addTab(self._tab_sembradores(), "2. Sembradores")
-        self.tabs.addTab(self._tab_preview(), "3. Vista previa")
-        self.tabs.addTab(self._tab_llenado(), "4. Llenado")
+        self.tabs.addTab(self._tab_live(), "▶ En vivo")
+        self.tabs.addTab(self._tab_hoy(), "Hoy")
+        self.tabs.addTab(self._tab_sembradores(), "Sembradores (Excel)")
+        self.tabs.addTab(self._tab_preview(), "Vista previa")
+        self.tabs.addTab(self._tab_llenado(), "Llenado por lote")
         self.tabs.addTab(self._tab_plantilla(), "Plantilla fija")
         self.tabs.addTab(self._tab_validacion(), "Validación")
         self.tabs.currentChanged.connect(self._on_tab)
@@ -721,6 +723,9 @@ class MainWindow(QMainWindow):
         if self.review and self.review.isRunning():
             QMessageBox.information(self, APP_TITLE, "Cierra primero el navegador de revisión.")
             return
+        if self.live and self.live.isRunning():
+            QMessageBox.information(self, APP_TITLE, "Cierra primero el navegador del modo En vivo.")
+            return
         marcados = [s for s in self.sembradores if s.uid in self.seleccion]
         if not marcados:
             QMessageBox.information(self, APP_TITLE, "Marca al menos un sembrador en la pestaña Sembradores.")
@@ -799,6 +804,10 @@ class MainWindow(QMainWindow):
 
     def _open_review(self):
         if self.worker and self.worker.isRunning():
+            return
+        if self.live and self.live.isRunning():
+            QMessageBox.information(self, APP_TITLE, "El navegador del modo En vivo ya está abierto: "
+                                    "revisa y envía ahí (el botón Enviar se habilita al cerrarlo y abrir revisión).")
             return
         self.review = ReviewWorker(self.builder_url())
         self.review.log.connect(self._log_safe)
@@ -1053,7 +1062,14 @@ class MainWindow(QMainWindow):
     # ------------------------------------------------------------------ otros
     def _on_tab(self, i):
         name = self.tabs.tabText(i)
-        if "Vista previa" in name:
+        if "En vivo" in name:
+            self.builder.reload()
+            self._live_fill_combo()
+            self._live_load_day()
+            self._live_changed()
+        elif "Sembradores" in name:
+            self._refresh_sembradores()
+        elif "Vista previa" in name:
             self._refresh_preview_combo()
         elif "Validación" in name:
             self._run_validation()
@@ -1065,6 +1081,7 @@ class MainWindow(QMainWindow):
                 return
             self.worker.stop()
             self.worker.wait(5000)
+        self._live_stop()
         self._save_session()
         e.accept()
 

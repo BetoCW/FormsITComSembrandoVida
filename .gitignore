@@ -11,3 +11,4 @@ data/form_cache/media/Personal_op.csv
 output/capturas/
 output/reporte_*.xlsx
 config/*.bak
+config/dia.yaml

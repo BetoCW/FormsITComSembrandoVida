@@ -114,6 +114,9 @@ window.__af = {
     bs.classList.remove('open');
     return {found};
   },
+  readMany(keys) {
+    return keys.map(([p, r, i]) => { try { return this.read(p, r, i); } catch (e) { return {found: false}; } });
+  },
   requiredEmpty() {
     const out = [];
     document.querySelectorAll('form.or [data-required]').forEach(el => {
@@ -180,8 +183,10 @@ class FillResult:
 class Filler:
     def __init__(self, headless: bool = False, profile: Path = PROFILE, url: str = FORM_URL,
                  slow_ms: int = 0, settle_ms: int = 400, logger: Callable[[str], None] | None = None,
-                 on_autosave: str = "descartar", ask_autosave: Callable[[str], str] | None = None):
+                 on_autosave: str = "descartar", ask_autosave: Callable[[str], str] | None = None,
+                 window_args: list[str] | None = None):
         self.headless, self.profile, self.url = headless, profile, url
+        self.window_args = window_args          # p. ej. ["--window-position=700,0"] -> ventana libre
         self.on_autosave = on_autosave          # descartar | cargar | preguntar
         self.ask_autosave = ask_autosave        # callback(texto) -> "descartar" | "cargar" | "detener"
         self.autosave_events: list[str] = []
@@ -195,9 +200,9 @@ class Filler:
     def start(self):
         self.profile.mkdir(parents=True, exist_ok=True)
         self._pw = sync_playwright().start()
+        size = {"no_viewport": True, "args": self.window_args} if self.window_args is not None             else {"viewport": {"width": 1366, "height": 860}}
         self.ctx = self._pw.chromium.launch_persistent_context(
-            str(self.profile), headless=self.headless, slow_mo=self.slow_ms,
-            viewport={"width": 1366, "height": 860}, locale="es-MX")
+            str(self.profile), headless=self.headless, slow_mo=self.slow_ms, locale="es-MX", **size)
         guard.install(self.ctx)
         self.page = self.ctx.pages[0] if self.ctx.pages else self.ctx.new_page()
         return self
@@ -366,6 +371,52 @@ class Filler:
                 last_err = f"{type(e).__name__}: {e}"
             self.settle(600 * (attempt + 1))
         return FieldResult(a, "fallo", last_err)
+
+    def clear(self, a: Action) -> FieldResult:
+        """Deja vacio un campo (cuando el dato se borra en la app)."""
+        state = self.read(a)
+        if not state.get("found"):
+            return FieldResult(a, "fallo", "campo no encontrado")
+        if not state.get("values"):
+            return FieldResult(a, "ok", "ya estaba vacio")
+        try:
+            if a.widget == "checkbox":
+                self.set_choice(a, [], multi=True)
+            elif a.widget == "select" and a.kind == "select_multiple":
+                self.set_bootstrap(a, [], multi=True)
+            elif a.widget in ("radio", "select"):
+                return FieldResult(a, "omitido", "una opcion unica no se puede dejar vacia; cambiala a mano")
+            elif a.widget == "autocomplete":
+                self.set_autocomplete(a, "")
+            elif a.kind == "date":
+                self.set_widget_text(a, ".widget.date input", "")
+            elif a.kind == "time":
+                self.set_widget_text(a, ".timepicker input, .widget.timepicker input", "")
+            else:
+                self.page.evaluate("([p, r, i]) => __af.setPlain(p, r, i, '')", [a.path, a.repeat or "", a.index])
+            self.settle()
+            return FieldResult(a, "ok", "borrado")
+        except Exception as e:  # noqa: BLE001
+            return FieldResult(a, "fallo", f"{type(e).__name__}: {e}")
+
+    def remove_repeat_instances(self, path: str, keep: int) -> int:
+        """Quita instancias del final hasta dejar `keep` (minimo 1)."""
+        inst = self.page.locator(f'section.or-repeat[name="{path}"]')
+        removed = 0
+        while inst.count() > max(1, keep):
+            btn = inst.last.locator(":scope > .repeat-buttons .remove")
+            if not btn.count():
+                break
+            btn.first.click()
+            self.page.wait_for_timeout(500)
+            dlg = self.page.locator(".vex .vex-dialog-button-primary")
+            if dlg.count() and dlg.first.is_visible():
+                if (dlg.first.inner_text() or "").strip().lower() in ("enviar", "submit"):
+                    raise guard.SubmitForbidden("dialogo inesperado con boton Enviar")
+                dlg.first.click()
+                self.page.wait_for_timeout(400)
+            removed += 1
+        return removed
 
     def _set(self, a: Action, values: list[str]):
         w = a.widget
